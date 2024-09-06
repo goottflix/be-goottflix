@@ -34,8 +34,14 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar']) // 영화진흥위원회 api 라이브러리
+    implementation 'org.json:json:20210307' // json 가공의존성
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
