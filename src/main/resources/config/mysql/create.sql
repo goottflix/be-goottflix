@@ -1,6 +1,6 @@
 use goottflix;
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS user;
 CREATE TABLE   user  (
                          id 	int auto_increment primary key	NOT NULL,
                          username 	varchar(50)	NULL,
@@ -16,7 +16,7 @@ CREATE TABLE   user  (
                          preferences 	json	NULL
 );
 
-DROP TABLE IF EXISTS `movies`;
+DROP TABLE IF EXISTS movies;
 CREATE TABLE  movies  (
                           id 	int auto_increment primary key	NOT NULL,
                           title 	varchar(255)	NULL,
@@ -28,7 +28,7 @@ CREATE TABLE  movies  (
                           poster_url 	varchar(255)	NULL
 );
 
-DROP TABLE IF EXISTS `notifys`;
+DROP TABLE IF EXISTS notifys;
 CREATE TABLE  notifys  (
                            id 	int auto_increment primary key	NOT NULL,
                            user_id 	int	NULL,
@@ -38,7 +38,7 @@ CREATE TABLE  notifys  (
                            is_read 	boolean	default false NULL,
                            notify_type 	enum('movieUpdate','friendadd')	NULL
 );
-DROP TABLE IF EXISTS `cards`;
+DROP TABLE IF EXISTS cards;
 CREATE TABLE  cards  (
                          id 	int auto_increment primary key	NOT NULL,
                          user_id 	int	NULL,
@@ -48,7 +48,7 @@ CREATE TABLE  cards  (
                          movie_id 	int	NULL
 );
 
-DROP TABLE IF EXISTS `review`;
+DROP TABLE IF EXISTS review;
 CREATE TABLE  review  (
                           id 	int auto_increment primary key	NOT NULL,
                           user_id 	int	NULL,
@@ -58,7 +58,7 @@ CREATE TABLE  review  (
                           recommend 	int	NULL	DEFAULT 0
 );
 
-DROP TABLE IF EXISTS `subscribe`;
+DROP TABLE IF EXISTS subscribe;
 CREATE TABLE  subscribe  (
                              id 	int auto_increment primary key	NOT NULL,
                              user_id 	int	NULL,
@@ -66,3 +66,18 @@ CREATE TABLE  subscribe  (
                              subscribe_end 	timestamp	NULL
 );
 
+DROP TABLE IF EXISTS ApiMovie;
+CREATE TABLE ApiMovie (
+     id int auto_increment primary key	NOT NULL,
+    movieName varchar(255),
+    director varchar(50),
+    openDt varchar(50),
+    prdtYear varchar(50),
+    nationAlt varchar(100),
+    movieCd varchar(50),
+    genre varchar(100),
+    repGenre varchar(50),
+    filename varchar(255),
+    filepath varchar(255)
+
+)
