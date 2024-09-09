@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 
 
 @Slf4j
@@ -24,7 +23,7 @@ public class NotifyController {
 
 
     // 영화 업데이트
-    @PostMapping("/moiveupdate")
+    @PostMapping("/movieupdate")
     public ResponseEntity<?> addMovieUpdate(@RequestBody NotifyEntity notifyEntity) {
         try {
             notifyService.addMovieUpdate(notifyEntity.getUserId(), notifyEntity.getMovieId());
@@ -34,9 +33,18 @@ public class NotifyController {
         }
     }
 
+    @GetMapping(value = "/")
 
-    @GetMapping(value = "/notifyClient", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public void streamNotify(HttpServletResponse response) throws IOException {
-        notifyService.streamNotify(response);
+
+    @PutMapping("/read/{notifyId}")
+    public ResponseEntity<?> readNotify(@RequestParam Long userId, @PathVariable Long notifyId) {
+        try {
+            // 서비스 계층에서 알림 읽음 처리
+            notifyService.notifyRead(userId, notifyId);
+            return ResponseEntity.ok("알림을 읽음 처리했습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알림 읽음 처리 실패");
+        }
+
     }
 }

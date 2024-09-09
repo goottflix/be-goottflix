@@ -25,7 +25,7 @@ public class NotifyService {
     public void addMovieUpdate(Long userId, Long movieId) {
         NotifyEntity notify = new NotifyEntity();
         notify.setContent("새로운 영화가 업데이트 되었습니다");
-        notify.setUrl("/movie" + movieId);
+        notify.setUrl("/movie" + movieId); // 이 부분은 프론트에서 url 지정하는거에 따라 변화할거임
         notify.setIsRead(false);
         notify.setNotifyType(NotifyEntity.NotifyType.movieUpdate);
         notify.setUserId(userId);
@@ -35,28 +35,10 @@ public class NotifyService {
         // 새로운 알림을 DB에 저장한다잉
         notifyMapper.insertNotify(notify);
 
-        // 업데이트 된 알림을 모든 클라이언트에게 전달 하는 거인듯..?
-        notifyClients("새로운 영화가 업데이트 되었습니다" + movieId);
     }
 
-    // sse 관련한 메서드임
-    public void streamNotify(HttpServletResponse response) throws IOException {
-        response.setContentType(MediaType.TEXT_EVENT_STREAM_VALUE);
-        response.setCharacterEncoding("UTF-8");
-        clients.add(response);
+    public void notifyRead(Long userId, Long notifyId) {
+        notifyMapper.updateIsRead(userId, notifyId);
     }
-
-    //  저장된 모든 클라이언트한테 알림을 전송하는 메서드임
-    public void notifyClients(String content) {
-        clients.forEach(client -> {
-            try {
-                client.getWriter().write("data: " + content + "\n\n");
-                client.getWriter().flush();
-            }catch (IOException e) {
-                clients.remove(client);
-            }
-        });
-    }
-
 
 }

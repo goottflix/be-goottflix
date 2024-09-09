@@ -14,9 +14,6 @@ public class NotifyEntity {
     private Long userId;        // member id와 연결할 외래 키
     private Long movieId;           //movie id와 연결한 외래 키
 
-//    private Member receiver; 병합하면 member 클래스 불러오는 컬럼
-
-
 
 
     public enum NotifyType {
