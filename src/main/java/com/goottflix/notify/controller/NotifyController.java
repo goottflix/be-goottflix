@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.time.chrono.MinguoDate;
+import java.util.List;
 
 
 @Slf4j
@@ -33,18 +36,33 @@ public class NotifyController {
         }
     }
 
-    @GetMapping(value = "/")
+    // sse 구현
+    @GetMapping(value = "/subscribe/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe(@PathVariable Long userId) {
+        return notifyService.subscribe(userId);
+    }
 
-
+    // 알림 읽음 확인
     @PutMapping("/read/{notifyId}")
     public ResponseEntity<?> readNotify(@RequestParam Long userId, @PathVariable Long notifyId) {
         try {
             // 서비스 계층에서 알림 읽음 처리
             notifyService.notifyRead(userId, notifyId);
-            return ResponseEntity.ok("알림을 읽음 처리했습니다.");
+            return ResponseEntity.ok("알림을 읽음");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알림 읽음 처리 실패");
         }
-
     }
+
+    @GetMapping("/all/{userId}")
+    public ResponseEntity<List<NotifyEntity>> getAllNotify(@PathVariable Long userId) {
+        try {
+            List<NotifyEntity> notifyEntities = notifyService.getAllNotify(userId);
+            return ResponseEntity.ok(notifyEntities);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 }
