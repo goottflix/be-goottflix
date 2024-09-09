@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.goottflix.movie.mapper.MovieMapper">
+    <select id="findById" resultType="Movie">
+        select * from movie where id=#{id}
+    </select>
+
+    <select id="findAll" resultType="Movie">
+        select * from movie
+    </select>
+
+    <insert id="save">
+        insert into movie(title, description, release_date, rating, genre, director, poster_url) values(#{title},#{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl})
+    </insert>
+
+    <update id="update">
+        update movie set title=#{title}, content=#{description}, release_date=#{releaseDate}, rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl} where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from movie where id=#{id}
+    </delete>
+
+</mapper>

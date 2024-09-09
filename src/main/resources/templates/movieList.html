@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    img{
+        max-width: 400px;
+        max-height: 300px;
+    }
+</style>
+<body>
+<a th:href="@{/movie/list}"><h2>goottflix</h2></a>
+<div>
+    <table>
+        <tr th:each="movie : ${list}">
+            <td>
+                <img th:src="${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}" th:alt="${movie.posterUrl}">
+            </td>
+            <td>
+                <a th:text="${movie.title}" th:href="@{/movie/view(id=${movie.id})}"></a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .write{
+        width: 500px;
+        margin: 0 auto;
+        margin-top: 40px;
+    }
+
+    .write input{
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .write textarea{
+        width: 100%;
+        margin-top: 10px;
+        min-height: 300px;
+    }
+</style>
+<body>
+<div class="write">
+    <form action="/board/write" method="post" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="제목"/>
+        <textarea name="description" placeholder="설명"></textarea>
+        <input type="date" name="releaseDate"/>
+        <input type="text" name="genre" placeholder="장르 (여러개일때는 '_'를 써서 구분해주세요"/>
+        <input type="text" name="director" placeholder="감독"/>
+        <input type="file" name="file"/>
+        <button type="submit">작성</button>
+    </form>
+</div>
+</body>
+</html>
