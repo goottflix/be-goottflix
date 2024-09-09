@@ -43,6 +43,7 @@ public class NotifyService {
 
     }
 
+
     // sse로 알림 전송하는 메소드
     private void sendNotify(Long userId, NotifyEntity notify) {
         SseEmitter emitter = clients.get(userId);
@@ -68,7 +69,7 @@ public class NotifyService {
         notifyMapper.updateIsRead(userId, notifyId);
     }
 
-    // 알림 전체 확인 메소드
+    // 알림 전체 조화 메소드
     public List<NotifyEntity> getAllNotify(Long userId) {
         return notifyMapper.findAllUserNotify(userId);
     }
