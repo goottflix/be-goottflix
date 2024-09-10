@@ -1,6 +1,7 @@
 package com.goottflix.notify.controller;
 
 
+import com.goottflix.notify.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.service.NotifyService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -53,7 +54,7 @@ public class NotifyController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알림 읽음 처리 실패");
         }
     }
-
+    // 알림 전체 조회
     @GetMapping("/all/{userId}")
     public ResponseEntity<List<NotifyEntity>> getAllNotify(@PathVariable Long userId) {
         try {
@@ -62,6 +63,14 @@ public class NotifyController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+
+    // 친구 검색
+    @GetMapping("/searchfriend")
+    public ResponseEntity<List<FriendNotifyDTO>> searchFriend(@RequestParam String searchTerm) {
+        List<FriendNotifyDTO> friend = notifyService.searchFriend(searchTerm);
+        return ResponseEntity.ok(friend);
     }
 
 

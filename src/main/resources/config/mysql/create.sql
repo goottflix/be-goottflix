@@ -80,4 +80,5 @@ CREATE TABLE ApiMovie (
     filename varchar(255),
     filepath varchar(255)
 
-)
+);
+

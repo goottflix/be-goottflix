@@ -1,12 +1,11 @@
 package com.goottflix.notify.service;
 
 
+import com.goottflix.notify.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 
 @Slf4j
@@ -39,9 +37,11 @@ public class NotifyService {
         // 새로운 알림을 DB에 저장한다잉
         notifyMapper.insertNotify(notify);
 
+
         sendNotify(userId, notify);
 
     }
+
 
 
     // sse로 알림 전송하는 메소드
@@ -69,10 +69,16 @@ public class NotifyService {
         notifyMapper.updateIsRead(userId, notifyId);
     }
 
-    // 알림 전체 조화 메소드
+    // 알림 전체 조회 메소드
     public List<NotifyEntity> getAllNotify(Long userId) {
         return notifyMapper.findAllUserNotify(userId);
     }
+
+    // 친구 검색
+    public List<FriendNotifyDTO> searchFriend(String searchTerm) {
+        return notifyMapper.searchFriend(searchTerm);
+    }
+
 
 
 }
