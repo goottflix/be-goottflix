@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    img{
+        max-width: 400px;
+        max-height: 300px;
+    }
+    .review_class{
+        border: 1px solid black;
+    }
+    .review_class span{
+        text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+    }
+</style>
 <body>
-
+<div>
+    <a th:href="@{/movie/list}"><h2>goottflix</h2></a>
+    <div class="img_class">
+        <img th:src="${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}" th:alt="${movie.posterUrl}">
+    </div>
+    <div class="content_class">
+        <h2 th:text="${movie.title}"/>
+        <p th:text="${movie.description}"/>
+        <p th:text="${movie.releaseDate}"/>
+        <p th:text="${movie.director}"/>
+        <p th:text="${movie.rating}"/>
+        <span th:each="gen : ${genre}" th:text="${gen}"></span>
+        <form action="/movie/review" method="get" th:if="${session.member!=null}">
+            <input type="hidden" name="id" th:value="${movie.id}">
+            <button type="submit">리뷰작성</button>
+        </form>
+    </div>
+    <div class="review_class" th:each="review : ${reviews}">
+        <div>
+            <span th:each="i:${#numbers.sequence(1,review.rating)}">★</span>
+        </div>
+        <p th:text="${review.username}"></p>
+        <p th:text="${review.review}"></p>
+        <form action="/movie/recommendUp" method="post">
+            <input type="hidden" name="reviewId" th:value="${review.id}">
+            <input type="hidden" name="movieId" th:value="${movie.id}">
+            <button type="submit">추천수</button><span th:text="${review.recommend}"></span>
+        </form>
+    </div>
+</div>
 </body>
 </html>

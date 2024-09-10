@@ -14,7 +14,7 @@
     </insert>
 
     <update id="update">
-        update movie set title=#{title}, content=#{description}, release_date=#{releaseDate}, rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl} where id=#{id}
+        update movie set title=#{title}, description=#{description}, release_date=#{releaseDate}, rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl} where id=#{id}
     </update>
 
     <delete id="delete">

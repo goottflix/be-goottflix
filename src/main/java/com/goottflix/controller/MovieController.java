@@ -1,7 +1,10 @@
 package com.goottflix.controller;
 
+import com.goottflix.model.Review;
 import com.goottflix.movie.Service.MovieService;
 import com.goottflix.model.Movie;
+import com.goottflix.movie.Service.ReviewService;
+import com.goottflix.movie.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,8 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
+
+    private final ReviewService reviewService;
 
     @GetMapping("/movie/write")
     public String write() {
@@ -41,10 +46,50 @@ public class MovieController {
 
     @GetMapping("/movie/view")
     public String views(Model model, @RequestParam("id") Long id) {
+        List<Review> reviews = reviewService.getReviewByMovieId(id);
         Movie movie = movieService.getMovieById(id);
 
+        String[] genre = movie.getGenre().split("_");
+
+        model.addAttribute("reviews", reviews);
         model.addAttribute("movie", movie);
+        model.addAttribute("genre", genre);
 
         return "movieView";
+    }
+
+    @GetMapping("/movie/review")
+    public String reviews(@RequestParam("id") Long movieId, Model model){
+
+        model.addAttribute("movieId", movieId);
+
+        return "movieReview";
+    }
+
+    @PostMapping("/movie/review")
+    public String reviewPost(@RequestParam("movieId") Long movieId,
+                             @RequestParam("username") String username,
+                             @RequestParam("rating") int rating,
+                             @RequestParam("review") String review){
+
+        Review review1 = new Review();
+
+        review1.setMovieId(movieId);
+        review1.setUsername(username);
+        review1.setRating(rating);
+        review1.setReview(review);
+
+        reviewService.save(review1);
+
+        float avg = reviewService.getAverageRatingByMovieId(movieId);
+        movieService.updateRating(avg,movieId);
+
+        return "redirect:/movie/list";
+    }
+
+    @PostMapping("/movie/recommendUp")
+    public String recommendUp(@RequestParam("reviewId") Long reviewId,@RequestParam("movieId") Long movieId){
+        reviewService.recommendUp(reviewId);
+        return "redirect:/movie/view?id="+movieId;
     }
 }

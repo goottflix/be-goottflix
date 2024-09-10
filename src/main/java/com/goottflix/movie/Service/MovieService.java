@@ -33,6 +33,12 @@ public class MovieService {
         }
     }
 
+    public void updateRating(float avg, Long movieId){
+        Movie movie1 = movieMapper.findById(movieId);
+        movie1.setRating(avg);
+        movieMapper.update(movie1);
+    }
+
     private String handleFileUpload(MultipartFile file) throws IOException {
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
         UUID uuid = UUID.randomUUID();
