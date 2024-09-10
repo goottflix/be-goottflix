@@ -1,8 +1,7 @@
-package com.goottflix.movie.Service;
+package com.goottflix.review.service;
 
-import com.goottflix.model.Movie;
-import com.goottflix.model.Review;
-import com.goottflix.movie.mapper.ReviewMapper;
+import com.goottflix.review.model.Review;
+import com.goottflix.review.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

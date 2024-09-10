@@ -1,4 +1,4 @@
-package com.goottflix.model;
+package com.goottflix.movie.model;
 
 import lombok.Data;
 

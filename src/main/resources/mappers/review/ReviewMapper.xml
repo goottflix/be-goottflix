@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.goottflix.movie.mapper.ReviewMapper">
+<mapper namespace="com.goottflix.review.mapper.ReviewMapper">
 
     <insert id="save">
         insert into review(username, movie_id, rating, review) values(#{username}, #{movieId}, #{rating}, #{review})

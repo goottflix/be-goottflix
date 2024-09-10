@@ -1,9 +1,8 @@
-package com.goottflix.movie.Service;
+package com.goottflix.movie.service;
 
 import com.goottflix.movie.mapper.MovieMapper;
-import com.goottflix.model.Movie;
+import com.goottflix.movie.model.Movie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

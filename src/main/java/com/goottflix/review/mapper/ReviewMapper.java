@@ -1,6 +1,6 @@
-package com.goottflix.movie.mapper;
+package com.goottflix.review.mapper;
 
-import com.goottflix.model.Review;
+import com.goottflix.review.model.Review;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

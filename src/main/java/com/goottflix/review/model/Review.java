@@ -1,4 +1,4 @@
-package com.goottflix.model;
+package com.goottflix.review.model;
 
 import lombok.Data;
 
