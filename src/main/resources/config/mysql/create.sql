@@ -82,3 +82,11 @@ CREATE TABLE ApiMovie (
 
 );
 
+DROP TABLE IF EXISTS Friends;
+CREATE TABLE Friends(
+    id int auto_increment primary key NOT NULL,
+    user_id int,
+    friend_id int,
+    status enum('no','yes') DEFAULT 'no',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
