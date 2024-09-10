@@ -2,10 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.goottflix.notify.entity.repository.NotifyMapper">
 
+<!--알림 저장하는 sql문-->
     <insert id="insertNotify" parameterType="NotifyEntity">
         INSERT INTO notifys (content, url, is_read, notify_type, user_id, movie_id)
         VALUES (#{content}, #{url}, #{isRead}, #{notifyType}, #{userId}, #{movieId});
     </insert>
+
+<!--사용자가 알림 읽었는지 파악하는 sql문-->
+    <update id="updateIsRead" parameterType="map">
+        UPDATE notifys
+        SET is_read = true
+        WHERE id = #{notifyId} AND user_id = #{userId};
+    </update>
+
+<!--알림 전체 조회 sql문-->
+    <select id="findAllUserNotify" resultType="NotifyEntity">
+        SELECT * FROM notifys WHERE user_id = #{userId}
+    </select>
+
+    
+    <select id="searchFriend" parameterType="String" resultType="FriendNotifyDTO">
+        SELECT id, username, email FROM user
+        WHERE username = #{searchTerm}
+    </select>
+    
+    
+
+<!--    <select id="findById" parameterType="NotifyEntity" resultType="friendNotifyDTO">-->
+<!--        select n.*, u.email, u.username-->
+<!--        from notifys as n-->
+<!--        join user as u on n.user_id = u.id where id = #{id}-->
+<!--    </select>-->
+
+
+<!--    SELECT n.*, u.user_id, u.user_name-->
+<!--    FROM notification n-->
+<!--    JOIN user u-->
+<!--    ON n.user_id = u.user_id-->
+<!--    WHERE u.user_id = '원하는_user_id';-->
 
 
 </mapper>
