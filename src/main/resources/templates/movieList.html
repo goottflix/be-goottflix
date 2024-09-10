@@ -12,6 +12,12 @@
 </style>
 <body>
 <a th:href="@{/movie/list}"><h2>goottflix</h2></a>
+<div th:if="${session.member==null}">
+    <a th:href="@{/member/login}">login</a>
+</div>
+<div th:if="${session.member!=null}">
+    <span th:text="${session.member.username}"></span>
+</div>
 <div>
     <table>
         <tr th:each="movie : ${list}">
