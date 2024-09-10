@@ -1,7 +1,7 @@
-package com.goottflix.controller;
+package com.goottflix.movie.controller;
 
-import com.goottflix.model.Member;
-import com.goottflix.movie.Service.MemberService;
+import com.goottflix.movie.model.Member;
+import com.goottflix.movie.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -1,10 +1,9 @@
-package com.goottflix.controller;
+package com.goottflix.movie.controller;
 
-import com.goottflix.model.Review;
-import com.goottflix.movie.Service.MovieService;
-import com.goottflix.model.Movie;
-import com.goottflix.movie.Service.ReviewService;
-import com.goottflix.movie.mapper.ReviewMapper;
+import com.goottflix.review.model.Review;
+import com.goottflix.movie.service.MovieService;
+import com.goottflix.movie.model.Movie;
+import com.goottflix.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

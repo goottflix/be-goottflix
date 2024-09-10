@@ -1,6 +1,6 @@
 package com.goottflix.movie.mapper;
 
-import com.goottflix.model.Member;
+import com.goottflix.movie.model.Member;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

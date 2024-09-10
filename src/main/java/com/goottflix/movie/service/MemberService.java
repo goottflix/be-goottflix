@@ -1,6 +1,6 @@
-package com.goottflix.movie.Service;
+package com.goottflix.movie.service;
 
-import com.goottflix.model.Member;
+import com.goottflix.movie.model.Member;
 import com.goottflix.movie.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
