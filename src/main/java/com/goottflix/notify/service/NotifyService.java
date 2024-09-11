@@ -1,7 +1,7 @@
 package com.goottflix.notify.service;
 
 
-import com.goottflix.notify.entity.FriendNotifyDTO;
+import com.goottflix.friend.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
 import lombok.RequiredArgsConstructor;
@@ -73,12 +73,5 @@ public class NotifyService {
     public List<NotifyEntity> getAllNotify(Long userId) {
         return notifyMapper.findAllUserNotify(userId);
     }
-
-    // 친구 검색
-    public List<FriendNotifyDTO> searchFriend(String searchTerm) {
-        return notifyMapper.searchFriend(searchTerm);
-    }
-
-
 
 }

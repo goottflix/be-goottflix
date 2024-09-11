@@ -1,7 +1,7 @@
 package com.goottflix.notify.entity.repository;
 
 
-import com.goottflix.notify.entity.FriendNotifyDTO;
+import com.goottflix.friend.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,5 +17,4 @@ public interface NotifyMapper {
 
     List<NotifyEntity> findAllUserNotify(Long userId);
 
-    List<FriendNotifyDTO> searchFriend(@Param("searchTerm") String searchTerm);
 }

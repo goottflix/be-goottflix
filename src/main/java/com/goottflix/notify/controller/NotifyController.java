@@ -1,10 +1,9 @@
 package com.goottflix.notify.controller;
 
 
-import com.goottflix.notify.entity.FriendNotifyDTO;
+import com.goottflix.friend.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.service.NotifyService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.time.chrono.MinguoDate;
 import java.util.List;
 
 
@@ -65,13 +63,6 @@ public class NotifyController {
         }
     }
 
-
-    // 친구 검색
-    @GetMapping("/searchfriend")
-    public ResponseEntity<List<FriendNotifyDTO>> searchFriend(@RequestParam String searchTerm) {
-        List<FriendNotifyDTO> friend = notifyService.searchFriend(searchTerm);
-        return ResponseEntity.ok(friend);
-    }
 
 
 }
