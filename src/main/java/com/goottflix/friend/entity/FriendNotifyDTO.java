@@ -1,4 +1,4 @@
-package com.goottflix.notify.entity;
+package com.goottflix.friend.entity;
 
 import lombok.Data;
 
