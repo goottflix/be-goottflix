@@ -2,7 +2,6 @@ package com.goottflix.friend.service;
 
 import com.goottflix.friend.entity.repository.FriendMapper;
 import com.goottflix.friend.entity.FriendNotifyDTO;
-import kotlin.jvm.internal.FunInterfaceConstructorReference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,12 @@ public class FriendService {
         friendMapper.addFriend(friendId, userId);
 
     }
+
+    // 친구 목록 조회
+    public List<FriendNotifyDTO> friendList(Long userId) {
+        return friendMapper.friendList(userId);
+    }
+
 
 
 }

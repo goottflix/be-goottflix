@@ -21,12 +21,6 @@
     </select>
 
     
-    <select id="searchFriend" parameterType="String" resultType="FriendNotifyDTO">
-        SELECT id, username, email FROM user
-        WHERE username = #{searchTerm}
-    </select>
-    
-    
 
 <!--    <select id="findById" parameterType="NotifyEntity" resultType="friendNotifyDTO">-->
 <!--        select n.*, u.email, u.username-->

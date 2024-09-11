@@ -15,4 +15,7 @@ public interface FriendMapper {
 
     // 친구 추가
     void addFriend(@Param("userId") Long userId, @Param("friendId") Long friendId);
+
+    List<FriendNotifyDTO> friendList(@Param("userId") Long userId);
+
 }

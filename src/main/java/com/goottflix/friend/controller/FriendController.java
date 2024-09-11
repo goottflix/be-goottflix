@@ -35,7 +35,10 @@ public class FriendController {
         return ResponseEntity.ok("친구 추가 성공");
     }
 
-    
-
-
+    // 친구 조회
+    @GetMapping("list")
+    public ResponseEntity<List<FriendNotifyDTO>> friendList(@RequestParam Long userId) {
+        List<FriendNotifyDTO> friendList = friendService.friendList(userId);
+        return ResponseEntity.ok(friendList);
+    }
 }

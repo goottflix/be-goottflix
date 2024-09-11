@@ -14,5 +14,11 @@
     </insert>
 
 
+    <select id="friendList" parameterType="Long" resultType="FriendNotifyDTO">
+        SELECT f.id, u.username, u.email
+        FROM friends f
+        JOIN user u ON f.friend_id = u.id
+        WHERE f.user_id = #{userId}
+    </select>
 
 </mapper>
