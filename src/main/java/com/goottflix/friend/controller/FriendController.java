@@ -1,8 +1,7 @@
 package com.goottflix.friend.controller;
 
 
-import com.goottflix.friend.entity.FriendEntity;
-import com.goottflix.friend.entity.repository.FriendMapper;
+
 import com.goottflix.friend.service.FriendService;
 import com.goottflix.friend.entity.FriendNotifyDTO;
 import lombok.RequiredArgsConstructor;

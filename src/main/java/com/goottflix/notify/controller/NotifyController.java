@@ -35,6 +35,18 @@ public class NotifyController {
         }
     }
 
+    // 친구 추가 업데이트
+    @PostMapping("/friendUpdate")
+    public ResponseEntity<?> addFriendUpdate(@RequestParam Long userId) {
+        try {
+            notifyService.addFriendUpdate(userId);
+            return ResponseEntity.ok("친구 추가 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("친구 추가 실패");
+        }
+    }
+
+
     // sse 구현
     @GetMapping(value = "/subscribe/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@PathVariable Long userId) {
