@@ -3,7 +3,7 @@
 <mapper namespace="com.goottflix.review.mapper.ReviewMapper">
 
     <insert id="save">
-        insert into review(username, movie_id, rating, review) values(#{username}, #{movieId}, #{rating}, #{review})
+        insert into review(user_id, movie_id, rating, review) values(#{userId}, #{movieId}, #{rating}, #{review})
     </insert>
 
     <select id="findByMovieId" resultType="Review">
@@ -12,6 +12,10 @@
 
     <select id="findById" resultType="Review">
         select * from review where id=#{id}
+    </select>
+
+    <select id="findByRecommendedUserId" resultType="Review">
+        select * from review where user_id=#{userId}
     </select>
 
     <update id="update">

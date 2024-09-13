@@ -15,4 +15,6 @@ public interface ReviewMapper {
     void save(Review review);
 
     void update(Review review);
+
+    List<Review> findByRecommendedUserId(Long userId);
 }

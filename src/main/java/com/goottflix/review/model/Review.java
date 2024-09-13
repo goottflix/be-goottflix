@@ -6,7 +6,7 @@ import lombok.Data;
 public class Review {
     private Long id;
     private Long movieId;
-    private String username;
+    private Long userId;
     private int rating;
     private String review;
     private int recommend;
