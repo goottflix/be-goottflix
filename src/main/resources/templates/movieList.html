@@ -7,7 +7,18 @@
 <style>
     img{
         max-width: 400px;
-        max-height: 300px;
+        max-height: 400px;
+        min-width: 300px;
+        min-height: 300px;
+    }
+
+    .movie_body{
+        text-align: center;
+    }
+
+    .movie_body div{
+        display: inline-block;
+        width: 49%;
     }
 </style>
 <body>
@@ -18,17 +29,33 @@
 <div th:if="${session.member!=null}">
     <span th:text="${session.member.username}"></span>
 </div>
-<div>
-    <table>
-        <tr th:each="movie : ${list}">
-            <td>
-                <img th:src="${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}" th:alt="${movie.posterUrl}">
-            </td>
-            <td>
-                <a th:text="${movie.title}" th:href="@{/movie/view(id=${movie.id})}"></a>
-            </td>
-        </tr>
-    </table>
+<div class="movie_body">
+    <div>
+        <h2>영화 리스트</h2>
+        <table>
+            <tr th:each="movie : ${list}">
+                <td>
+                    <img th:src="${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}" th:alt="${movie.posterUrl}">
+                </td>
+                <td>
+                    <a th:text="${movie.title}" th:href="@{/movie/view(id=${movie.id})}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h2>추천 영화</h2>
+        <table>
+            <tr th:each="reMovie : ${recommendList}">
+                <td>
+                    <img th:src="${reMovie.posterUrl!=null?reMovie.posterUrl:'/files/img_ready.png'}" th:alt="${reMovie.posterUrl}">
+                </td>
+                <td>
+                    <a th:text="${reMovie.title}" th:href="@{/movie/view(id=${reMovie.id})}"></a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>

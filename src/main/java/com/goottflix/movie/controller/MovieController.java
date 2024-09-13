@@ -1,9 +1,11 @@
 package com.goottflix.movie.controller;
 
-import com.goottflix.review.model.Review;
+import com.goottflix.movie.model.Member;
 import com.goottflix.movie.service.MovieService;
+import com.goottflix.review.model.Review;
 import com.goottflix.movie.model.Movie;
 import com.goottflix.review.service.ReviewService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,10 +37,16 @@ public class MovieController {
     }
 
     @GetMapping("/movie/list")
-    public String List(Model model) {
+    public String List(Model model, HttpSession session) {
         List<Movie> list = movieService.getAllMovies();
 
         model.addAttribute("list", list);
+
+        if(session.getAttribute("member") != null) {
+            Member member = (Member) session.getAttribute("member");
+            List<Movie> recommendList = movieService.getRecommendedMovies(member.getId());
+            model.addAttribute("recommendList",recommendList);
+        }
 
         return "movieList";
     }
@@ -67,14 +75,14 @@ public class MovieController {
 
     @PostMapping("/movie/review")
     public String reviewPost(@RequestParam("movieId") Long movieId,
-                             @RequestParam("username") String username,
+                             @RequestParam("userId") Long userId,
                              @RequestParam("rating") int rating,
                              @RequestParam("review") String review){
 
         Review review1 = new Review();
 
         review1.setMovieId(movieId);
-        review1.setUsername(username);
+        review1.setUserId(userId);
         review1.setRating(rating);
         review1.setReview(review);
 
