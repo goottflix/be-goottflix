@@ -89,3 +89,23 @@ CREATE TABLE Friends(
     friend_id int,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+# /*채팅방 테이블*/
+# DROP TABLE IF EXISTS ChatRoom;
+# CREATE TABLE ChatRoom(
+#     id int auto_increment primary key  NOT NULL ,
+#     user1_id int,
+#     user2_id int
+# );
+#
+#
+# DROP TABLE IF EXISTS ChatMessage;
+# CREATE TABLE ChatMessage(
+#     id int auto_increment primary key NOT NULL ,
+#     room_id int,
+#     sender_id int,
+#     message text
+# )
+
+
+
