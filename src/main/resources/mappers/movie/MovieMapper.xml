@@ -9,6 +9,10 @@
         select * from movie
     </select>
 
+    <select id="findByRecommendedGenre" resultType="Movie">
+        select * from movie where genre like #{genre} order by rating desc
+    </select>
+
     <insert id="save">
         insert into movie(title, description, release_date, rating, genre, director, poster_url) values(#{title},#{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl})
     </insert>

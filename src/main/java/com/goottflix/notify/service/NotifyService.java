@@ -1,7 +1,6 @@
 package com.goottflix.notify.service;
 
 
-import com.goottflix.notify.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +41,19 @@ public class NotifyService {
 
     }
 
+    // 친구 추가 알림 메소드
+    public void addFriendUpdate(Long userId) {
+        NotifyEntity notify = new NotifyEntity();
+        notify.setContent("새로운 친구가 추가되었습니다");
+        notify.setUrl("/friend" + userId); // 프론트에서 url 설정하는거에 따라 변동
+        notify.setIsRead(false);
+        notify.setNotifyType(NotifyEntity.NotifyType.friendAdd);
+        notify.setUserId(userId);
+
+        notifyMapper.insertNotify(notify);
+
+        sendNotify(userId, notify);
+    }
 
 
     // sse로 알림 전송하는 메소드
@@ -73,12 +85,5 @@ public class NotifyService {
     public List<NotifyEntity> getAllNotify(Long userId) {
         return notifyMapper.findAllUserNotify(userId);
     }
-
-    // 친구 검색
-    public List<FriendNotifyDTO> searchFriend(String searchTerm) {
-        return notifyMapper.searchFriend(searchTerm);
-    }
-
-
 
 }
