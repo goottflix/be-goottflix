@@ -12,6 +12,8 @@ public interface MovieMapper {
 
     List<Movie> findAll();
 
+    List<Movie> findByRecommendedGenre(String genre);
+
     void save(Movie movie);
 
     void update(Movie movie);

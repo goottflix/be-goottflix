@@ -38,7 +38,7 @@
         <div>
             <span th:each="i:${#numbers.sequence(1,review.rating)}">★</span>
         </div>
-        <p th:text="${review.username}"></p>
+        <p th:text="uuid_+${review.userId}"></p>
         <p th:text="${review.review}"></p>
         <form action="/movie/recommendUp" method="post">
             <input type="hidden" name="reviewId" th:value="${review.id}">
