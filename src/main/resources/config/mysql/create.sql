@@ -5,16 +5,18 @@ CREATE TABLE   user  (
                          id 	int auto_increment primary key	NOT NULL,
                          username 	varchar(50)	NULL,
                          email 	varchar(100)	NULL,
+                         loginId 	varchar(100)	NULL,
                          password_hash 	varchar(255)	NULL,
-                         salt 	varchar(255)	NULL,
-                         brith 	date	NULL,
+                         oauthId 	varchar(255)	NULL,
+                         birth 	date	NULL,
                          gender 	ENUM('M','F')	NULL,
                          created_at 	timestamp	NULL	DEFAULT now()	COMMENT 'timestamp는 시간 초까지',
                          last_login 	timestamp	NULL	DEFAULT now(),
-                         role 	ENUM('USER','ADMIN')	NULL	DEFAULT 'USER',
+                         role 	varchar(50) 	NULL	DEFAULT 'ROLE_USER',
                          is_active 	boolean	NULL,
                          preferences 	json	NULL
 );
+
 
 DROP TABLE IF EXISTS movies;
 CREATE TABLE  movies  (
