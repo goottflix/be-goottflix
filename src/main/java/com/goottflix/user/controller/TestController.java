@@ -1,6 +1,7 @@
 package com.goottflix.user.controller;
 
 import com.goottflix.user.jwt.JWTUtil;
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,10 @@ public class TestController {
         String username = jWTUtil.getUsername(token);
         String role = jWTUtil.getRole(token);
         Long userId = jWTUtil.getUserID(token);
+        Dotenv dotenv = Dotenv.load();
+        System.out.println("GOOGLE_CLIENT_ID: " + dotenv.get("GOOGLE_CLIENT_ID"));
+        System.out.println("NAVER_CLIENT_ID: " + dotenv.get("NAVER_CLIENT_ID"));
+
 
         return "test Controller :!! " + username+role+userId;
     }
