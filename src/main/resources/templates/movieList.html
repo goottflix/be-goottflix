@@ -3,24 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .img_body {
+            max-width: 300px;
+            max-height: 300px;
+            min-width: 300px;
+            min-height: 300px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            position: relative; /* Make sure the buttons are positioned relative to this container */
+        }
+
+        img {
+            max-width: 300px;
+            max-height: 300px;
+            min-width: 300px;
+            min-height: 300px;
+        }
+
+        .movie_body {
+            text-align: center;
+        }
+
+        .normal_body, .recommend_body{
+            display: inline-block;
+            width: 49%;
+        }
+
+        form div{
+            display: inline-block;
+            direction: rtl;
+            border:0;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 100%;
+        }
+        form input[type=radio]{
+            display: none;
+        }
+        form label{
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+        form label:hover{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        form label:hover ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+        form input[type=radio]:checked ~ label{
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+    </style>
 </head>
-<style>
-    img{
-        max-width: 400px;
-        max-height: 400px;
-        min-width: 300px;
-        min-height: 300px;
-    }
-
-    .movie_body{
-        text-align: center;
-    }
-
-    .movie_body div{
-        display: inline-block;
-        width: 49%;
-    }
-</style>
 <body>
 <a th:href="@{/movie/list}"><h2>goottflix</h2></a>
 <div th:if="${session.member==null}">
@@ -30,12 +70,26 @@
     <span th:text="${session.member.username}"></span>
 </div>
 <div class="movie_body">
-    <div>
+    <div class="normal_body">
         <h2>영화 리스트</h2>
         <table>
             <tr th:each="movie : ${list}">
                 <td>
-                    <img th:src="${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}" th:alt="${movie.posterUrl}">
+                    <div class="img_body" th:style="'background-image: url('+${movie.posterUrl!=null?movie.posterUrl:'/files/img_ready.png'}+');'">
+                        <!-- Form for rating stars -->
+                        <form action="/movie/review" method="post" th:if="${session.member!=null}">
+                            <input type="hidden" name="movieId" th:value="${movie.id}">
+                            <input type="hidden" name="userId" th:value="${session.member.id}">
+                            <div>
+                                <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
+                                <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
+                                <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
+                                <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
+                                <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
+                            </div>
+                            <button type="submit">별점작성</button>
+                        </form>
+                    </div>
                 </td>
                 <td>
                     <a th:text="${movie.title}" th:href="@{/movie/view(id=${movie.id})}"></a>
@@ -43,7 +97,7 @@
             </tr>
         </table>
     </div>
-    <div>
+    <div class="recommend_body">
         <h2>추천 영화</h2>
         <table>
             <tr th:each="reMovie : ${recommendList}">
