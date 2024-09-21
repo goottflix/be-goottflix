@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notify")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class NotifyController {
 
     private final NotifyService notifyService;
