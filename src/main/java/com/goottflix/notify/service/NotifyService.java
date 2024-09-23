@@ -86,4 +86,9 @@ public class NotifyService {
         return notifyMapper.findAllUserNotify(userId);
     }
 
+    // 알림 삭제
+    public void deleteNotify(Long notifyId) {
+        notifyMapper.deleteNotify(notifyId);
+    }
+
 }

@@ -55,8 +55,8 @@ public class NotifyController {
     }
 
     // 알림 읽음 확인
-    @PutMapping("/read/{notifyId}")
-    public ResponseEntity<?> readNotify(@RequestParam Long userId, @PathVariable Long notifyId) {
+    @PutMapping("/read")
+    public ResponseEntity<?> readNotify(@RequestParam Long userId, @RequestParam Long notifyId) {
         try {
             // 서비스 계층에서 알림 읽음 처리
             notifyService.notifyRead(userId, notifyId);
@@ -75,6 +75,12 @@ public class NotifyController {
             return ResponseEntity.ok(notifyEntities);
     }
 
+    // 알림 삭제
+    @DeleteMapping("/deleteNotify")
+    public ResponseEntity<?> deleteNotify(@RequestParam Long notifyId) {
+        notifyService.deleteNotify(notifyId);
+        return ResponseEntity.ok().build();
+    }
 
 
 }

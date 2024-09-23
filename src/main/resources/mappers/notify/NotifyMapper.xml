@@ -20,6 +20,10 @@
         SELECT * FROM notifys WHERE user_id = #{userId}
     </select>
 
+<!--알림 삭제 -->
+    <delete id="deleteNotify" parameterType="long">
+        delete from notifys where id = #{notifyId}
+    </delete>
 
 
 </mapper>

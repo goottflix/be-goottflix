@@ -17,4 +17,5 @@ public interface NotifyMapper {
 
     List<NotifyEntity> findAllUserNotify(Long userId);
 
+    void deleteNotify(Long notifyId);
 }
