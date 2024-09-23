@@ -1,9 +1,9 @@
 package com.goottflix.notify.controller;
 
 
-import com.goottflix.friend.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.service.NotifyService;
+import com.goottflix.user.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.List;
 public class NotifyController {
 
     private final NotifyService notifyService;
-
+    private final JWTUtil jwtUtil;
 
     // 영화 업데이트
     @PostMapping("/movieupdate")
@@ -66,14 +66,13 @@ public class NotifyController {
         }
     }
     // 알림 전체 조회
-    @GetMapping("/all/{userId}")
-    public ResponseEntity<List<NotifyEntity>> getAllNotify(@PathVariable Long userId) {
-        try {
-            List<NotifyEntity> notifyEntities = notifyService.getAllNotify(userId);
+    @GetMapping("/allnotify")
+    public ResponseEntity<List<NotifyEntity>> getAllNotify(@CookieValue("Authorization") String token) {
+        System.out.println("jwtutil = " + jwtUtil.getUserID(token));
+
+            List<NotifyEntity> notifyEntities = notifyService.getAllNotify(jwtUtil.getUserID(token));
+            System.out.println("notifyEntities = " + notifyEntities.size());
             return ResponseEntity.ok(notifyEntities);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
 
