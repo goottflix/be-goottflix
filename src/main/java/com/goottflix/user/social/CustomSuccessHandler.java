@@ -43,12 +43,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(60*60*60);
-        //cookie.setSecure(true);
-        cookie.setPath("/");
         cookie.setHttpOnly(true);
+//        cookie.setSecure(false); //개발환경에서 주석처리
+        cookie.setMaxAge(60*60*60);
+        cookie.setPath("/");
 
         return cookie;
     }
-
-    }
+}
