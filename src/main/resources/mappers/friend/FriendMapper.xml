@@ -3,10 +3,11 @@
 <mapper namespace="com.goottflix.friend.entity.repository.FriendMapper">
 
 
-    <select id="searchFriend" parameterType="String" resultType="FriendNotifyDTO">
-        SELECT id, username, email FROM user
-        WHERE username = #{searchTerm}
+    <select id="searchFriend" resultType="FriendNotifyDTO">
+        SELECT id, username
+        FROM user
     </select>
+
 
     <insert id="addFriend" parameterType="map">
         INSERT INTO friends (user_id, friend_id)

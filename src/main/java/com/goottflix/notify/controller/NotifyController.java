@@ -78,8 +78,12 @@ public class NotifyController {
     // 알림 삭제
     @DeleteMapping("/deleteNotify")
     public ResponseEntity<?> deleteNotify(@RequestParam Long notifyId) {
-        notifyService.deleteNotify(notifyId);
-        return ResponseEntity.ok().build();
+        try {
+            notifyService.deleteNotify(notifyId);
+            return ResponseEntity.ok("알림 삭제 성공");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("실패");
+        }
     }
 
 

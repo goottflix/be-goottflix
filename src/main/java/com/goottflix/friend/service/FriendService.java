@@ -15,8 +15,8 @@ public class FriendService {
     private final FriendMapper friendMapper;
 
     // 친구 검색
-    public List<FriendNotifyDTO> searchFriend(String searchTerm) {
-        return friendMapper.searchFriend(searchTerm);
+    public List<FriendNotifyDTO> searchFriend() {
+        return friendMapper.searchFriend();
     }
 
     // 친구 추가

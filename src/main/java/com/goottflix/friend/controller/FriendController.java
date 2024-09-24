@@ -22,8 +22,10 @@ public class FriendController {
 
     // 친구 검색
     @GetMapping("/search")
-    public ResponseEntity<List<FriendNotifyDTO>> searchFriend(@RequestParam String searchTerm) {
-        List<FriendNotifyDTO> friend = friendService.searchFriend(searchTerm);
+    public ResponseEntity<List<FriendNotifyDTO>> searchFriend() {
+        System.out.println("searchTerm = ");
+        List<FriendNotifyDTO> friend = friendService.searchFriend();
+        System.out.println("List.of(friend) = " + List.of(friend));
         return ResponseEntity.ok(friend);
     }
 
@@ -34,8 +36,8 @@ public class FriendController {
         return ResponseEntity.ok("친구 추가 성공");
     }
 
-    // 친구 조회
-    @GetMapping("list")
+    // 친구 목록
+    @GetMapping("/list")
     public ResponseEntity<List<FriendNotifyDTO>> friendList(@RequestParam Long userId) {
         List<FriendNotifyDTO> friendList = friendService.friendList(userId);
         return ResponseEntity.ok(friendList);
