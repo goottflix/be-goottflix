@@ -2,12 +2,13 @@ package com.goottflix.subscribe.model;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 public class Subscribe {
     private Long id;
     private Long userId;
-    private Timestamp subscribeStart;
-    private Timestamp subscribeEnd;
+    private LocalDate subscribeStart;
+    private LocalDate subscribeEnd;
 }

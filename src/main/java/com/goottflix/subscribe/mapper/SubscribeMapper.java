@@ -9,4 +9,6 @@ public interface SubscribeMapper {
     void save(Subscribe subscribe);
 
     void update(Subscribe subscribe);
+
+    Subscribe findByUserId(Long userId);
 }

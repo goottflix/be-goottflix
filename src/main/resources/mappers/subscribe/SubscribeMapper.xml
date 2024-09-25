@@ -10,4 +10,8 @@
         update subscribe set subscribe_end=#{subscribeEnd} where user_id=#{userId}
     </update>
 
+    <select id="findByUserId" resultType="Subscribe">
+        select * from subscribe where user_id=#{userId}
+    </select>
+
 </mapper>
