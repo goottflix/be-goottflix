@@ -4,6 +4,7 @@ import com.goottflix.movie.model.Movie;
 import com.goottflix.movie.service.MovieService;
 import com.goottflix.review.model.Review;
 import com.goottflix.review.service.ReviewService;
+import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +24,18 @@ public class MovieApiController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
+    private final SubscribeService subscribeService;
     private final JWTUtil jWTUtil;
 
     @GetMapping("/list")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
+    }
+
+    @GetMapping("/review")
+    public List<Review> getReview(@RequestParam("movieId") Long movieId) {
+
+        return reviewService.getReviewByMovieId(movieId);
     }
 
     @PostMapping("/review")
@@ -50,4 +58,8 @@ public class MovieApiController {
         movieService.updateRating(avg,movieId);
     }
 
+    @PostMapping("/subscribe")
+    public void subscribe(@CookieValue("Authorization") String token){
+        subscribeService.save(jWTUtil.getUserID(token));
+    }
 }
