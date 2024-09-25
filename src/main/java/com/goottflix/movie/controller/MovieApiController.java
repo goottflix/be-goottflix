@@ -34,8 +34,7 @@ public class MovieApiController {
     public void addReview(@CookieValue("Authorization") String token,
                           @RequestParam("movieId") Long movieId,
                           @RequestParam("rating") int rating,
-                          @RequestParam(name="review", required=false) String review,
-                          HttpServletResponse res) throws IOException{
+                          @RequestParam(name="review", required=false) String review) throws IOException{
         Review review1 = new Review();
 
         review1.setUserId(jWTUtil.getUserID(token));
@@ -50,4 +49,5 @@ public class MovieApiController {
         float avg = reviewService.getAverageRatingByMovieId(movieId);
         movieService.updateRating(avg,movieId);
     }
+
 }
