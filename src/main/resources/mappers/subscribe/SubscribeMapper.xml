@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.goottflix.subscribe.mapper.SubscribeMapper">
+
+    <insert id="save">
+        insert into subscribe(user_id, subscribe_start, subscribe_end) values(#{userId},#{subscribeStart},#{subscribeEnd})
+    </insert>
+
+    <update id="update">
+        update subscribe set subscribe_end=#{subscribeEnd} where user_id=#{userId}
+    </update>
+
+    <select id="findByUserId" resultType="Subscribe">
+        select * from subscribe where user_id=#{userId}
+    </select>
+
+</mapper>

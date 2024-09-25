@@ -77,14 +77,16 @@ public class MovieController {
     public String reviewPost(@RequestParam("movieId") Long movieId,
                              @RequestParam("userId") Long userId,
                              @RequestParam("rating") int rating,
-                             @RequestParam("review") String review){
+                             @RequestParam(name = "review",required = false) String review){
 
         Review review1 = new Review();
 
         review1.setMovieId(movieId);
         review1.setUserId(userId);
         review1.setRating(rating);
-        review1.setReview(review);
+        if(review != null) {
+            review1.setReview(review);
+        }
 
         reviewService.save(review1);
 
