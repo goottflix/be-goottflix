@@ -4,6 +4,7 @@ import com.goottflix.movie.model.Movie;
 import com.goottflix.movie.service.MovieService;
 import com.goottflix.review.model.Review;
 import com.goottflix.review.service.ReviewService;
+import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ public class MovieApiController {
 
     private final MovieService movieService;
     private final ReviewService reviewService;
+    private final SubscribeService subscribeService;
     private final JWTUtil jWTUtil;
 
     @GetMapping("/list")
@@ -30,12 +32,17 @@ public class MovieApiController {
         return movieService.getAllMovies();
     }
 
+    @GetMapping("/review")
+    public List<Review> getReview(@RequestParam("movieId") Long movieId) {
+
+        return reviewService.getReviewByMovieId(movieId);
+    }
+
     @PostMapping("/review")
     public void addReview(@CookieValue("Authorization") String token,
                           @RequestParam("movieId") Long movieId,
                           @RequestParam("rating") int rating,
-                          @RequestParam(name="review", required=false) String review,
-                          HttpServletResponse res) throws IOException{
+                          @RequestParam(name="review", required=false) String review) throws IOException{
         Review review1 = new Review();
 
         review1.setUserId(jWTUtil.getUserID(token));
@@ -49,5 +56,10 @@ public class MovieApiController {
 
         float avg = reviewService.getAverageRatingByMovieId(movieId);
         movieService.updateRating(avg,movieId);
+    }
+
+    @PostMapping("/subscribe")
+    public void subscribe(@CookieValue("Authorization") String token){
+        subscribeService.save(jWTUtil.getUserID(token));
     }
 }
