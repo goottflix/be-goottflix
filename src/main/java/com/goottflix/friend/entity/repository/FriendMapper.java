@@ -18,4 +18,5 @@ public interface FriendMapper {
 
     List<FriendNotifyDTO> friendList(@Param("userId") Long userId);
 
+    boolean existsByFriendId(Long userId, Long friendId);
 }

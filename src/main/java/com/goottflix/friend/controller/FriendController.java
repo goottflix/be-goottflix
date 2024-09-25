@@ -2,8 +2,11 @@ package com.goottflix.friend.controller;
 
 
 
+import com.goottflix.friend.entity.repository.FriendMapper;
 import com.goottflix.friend.service.FriendService;
 import com.goottflix.friend.entity.FriendNotifyDTO;
+import com.goottflix.notify.service.NotifyService;
+import com.goottflix.user.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +21,34 @@ import java.util.List;
 public class FriendController {
 
     private final FriendService friendService;
-
+    private final JWTUtil jwtUtil;
+    private final NotifyService notifyService;
+    private final FriendMapper friendMapper;
 
     // 친구 검색
     @GetMapping("/search")
     public ResponseEntity<List<FriendNotifyDTO>> searchFriend() {
-        System.out.println("searchTerm = ");
         List<FriendNotifyDTO> friend = friendService.searchFriend();
-        System.out.println("List.of(friend) = " + List.of(friend));
         return ResponseEntity.ok(friend);
     }
 
     // 친구 추가
     @PostMapping("/add")
-    public ResponseEntity<String> addFriend(@RequestParam Long userId, @RequestParam Long friendId) {
-        friendService.addFriend(userId, friendId);
+    public ResponseEntity<?> addFriend(@CookieValue("Authorization") String token, @RequestParam Long friendId) {
+
+        boolean exist = friendMapper.existsByFriendId(jwtUtil.getUserID(token), friendId);
+        if(exist) {
+            return ResponseEntity.badRequest().body("추가 실패");
+        }
+        friendService.addFriend(jwtUtil.getUserID(token), friendId);
+        notifyService.addFriendUpdate(friendId);
         return ResponseEntity.ok("친구 추가 성공");
     }
 
     // 친구 목록
     @GetMapping("/list")
-    public ResponseEntity<List<FriendNotifyDTO>> friendList(@RequestParam Long userId) {
-        List<FriendNotifyDTO> friendList = friendService.friendList(userId);
+    public ResponseEntity<List<FriendNotifyDTO>> friendList(@CookieValue("Authorization") String token) {
+        List<FriendNotifyDTO> friendList = friendService.friendList(jwtUtil.getUserID(token));
         return ResponseEntity.ok(friendList);
     }
 }

@@ -23,7 +23,6 @@ public class FriendService {
     public void addFriend(Long userId, Long friendId) {
         friendMapper.addFriend(userId, friendId);
         friendMapper.addFriend(friendId, userId);
-
     }
 
     // 친구 목록 조회

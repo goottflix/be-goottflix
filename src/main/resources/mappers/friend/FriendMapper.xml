@@ -22,4 +22,11 @@
         WHERE f.user_id = #{userId}
     </select>
 
+    <select id="existsByFriendId" resultType="boolean" parameterType="Long">
+        SELECT COUNT(*) > 0
+        FROM Friends
+        WHERE user_id = #{userId} ANd friend_id = #{friendId}
+    </select>
+
+
 </mapper>
