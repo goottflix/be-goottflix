@@ -39,10 +39,9 @@ public class TestController {
         String username = jWTUtil.getUsername(token);
         String role = jWTUtil.getRole(token);
         Long userId = jWTUtil.getUserID(token);
-        Dotenv dotenv = Dotenv.load();
-        System.out.println("GOOGLE_CLIENT_ID: " + dotenv.get("GOOGLE_CLIENT_ID"));
-        System.out.println("NAVER_CLIENT_ID: " + dotenv.get("NAVER_CLIENT_ID"));
-
+//        Dotenv dotenv = Dotenv.load(); // env 파일 잘 들어갔는지 읽어보는방법
+//        System.out.println("GOOGLE_CLIENT_ID: " + dotenv.get("GOOGLE_CLIENT_ID"));
+//        System.out.println("NAVER_CLIENT_ID: " + dotenv.get("NAVER_CLIENT_ID"));
 
         return "test Controller :!! " + username+role+userId;
     }

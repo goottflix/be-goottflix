@@ -3,10 +3,7 @@ package com.goottflix.user.service;
 import com.goottflix.user.model.User;
 import com.goottflix.user.model.UserDTO;
 import com.goottflix.user.model.repository.UserMapper;
-import com.goottflix.user.social.dto.CustomOAuth2User;
-import com.goottflix.user.social.dto.GoogleResponse;
-import com.goottflix.user.social.dto.NaverResponse;
-import com.goottflix.user.social.dto.OAuth2Response;
+import com.goottflix.user.social.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -33,6 +30,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         else if(registrationId.equals("google")) {
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
+
+        } else if(registrationId.equals("kakao")) {
+            oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
         } else {
             return null;
         }
