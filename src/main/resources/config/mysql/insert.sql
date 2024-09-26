@@ -1,15 +1,15 @@
 use goottflix;
 
 INSERT INTO user
-(id, username, email, password_hash, salt, birth, gender, created_at, last_login, role, is_active, preferences)
+(id, username, email, password_hash, oauthId, birth, gender, created_at, last_login, role, is_active, preferences)
  VALUES (null, '유환주','yoohwanjoo@nate.com','1234','1234','1994-04-02','M',null,null,null,true,null);
 
 INSERT INTO user
-(id, username, email, password_hash, salt, birth, gender, created_at, last_login, role, is_active, preferences)
+(id, username, email, password_hash, oauthId, birth, gender, created_at, last_login, role, is_active, preferences)
  VALUES (null, '김민지','goottflix@gmail.com','1234','1234','1998-12-12','F',null,null,null,true,null);
 
 INSERT INTO user
-(id, username, email, password_hash, salt, brith, gender, created_at, last_login, role, is_active, preferences)
+(id, username, email, password_hash, oauthId, birth, gender, created_at, last_login, role, is_active, preferences)
 VALUES (null, '나건웅','gallawer@gmail.com','1234','1234','1994-10-12','F',null,null,null,true,null);
 
 
