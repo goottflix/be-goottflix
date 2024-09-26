@@ -1,7 +1,7 @@
 use goottflix;
 
 DROP TABLE IF EXISTS user;
-CREATE TABLE   user  (
+CREATE TABLE  user  (
                          id 	int auto_increment primary key	NOT NULL,
                          username 	varchar(50)	NULL,
                          email 	varchar(100)	NULL,
@@ -12,16 +12,17 @@ CREATE TABLE   user  (
                          gender 	ENUM('M','F')	NULL,
                          created_at 	timestamp	NULL	DEFAULT now()	COMMENT 'timestamp는 시간 초까지',
                          last_login 	timestamp	NULL	DEFAULT now(),
-                         role 	varchar(50) 	NULL	DEFAULT 'ROLE_USER',
+                         role 	varchar(50)	NULL	DEFAULT 'ROLE_USER',
                          is_active 	boolean	NULL,
-                         preferences 	json	NULL
+                         preferences 	json	NULL,
+                         subscribe 	varchar(50)	NULL	DEFAULT 'free'	COMMENT 'free,sub,expired'
 );
-
 
 DROP TABLE IF EXISTS movies;
 CREATE TABLE  movies  (
                           id 	int auto_increment primary key	NOT NULL,
                           title 	varchar(255)	NULL,
+                          intro varchar(255) NULL COMMENT '영화 한줄설명',
                           description 	text	NULL,
                           release_date 	date	NULL	COMMENT '(2024-05-06)date형식',
                           rating 	decimal(3,2)	NULL	COMMENT '영화 평균별점 (1.0~5.0)',

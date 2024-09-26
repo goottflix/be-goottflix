@@ -16,7 +16,7 @@ public class SubscribeService {
 
     private final SubscribeMapper subscribeMapper;
 
-    public void save(Long userId){
+    public boolean save(Long userId){
         Subscribe subscribe = subscribeMapper.findByUserId(userId);
 
         if(subscribe==null){
@@ -25,10 +25,13 @@ public class SubscribeService {
             subscribe.setSubscribeStart(LocalDate.now());
             subscribe.setSubscribeEnd(LocalDate.now().plusMonths(1));
             subscribeMapper.save(subscribe);
+            return true;
         }else{
             subscribe.setSubscribeEnd(subscribe.getSubscribeEnd().plusMonths(1));
             subscribeMapper.update(subscribe);
+            return true;
         }
+
     }
 
 }

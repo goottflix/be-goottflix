@@ -29,8 +29,6 @@ public class LoginController {
 
             // JWT를 쿠키에 추가하여 응답
             response.addCookie(createCookie("Authorization", token));
-            System.out.println("token = " + token);
-            System.out.println("response = " + response);
 
             return ResponseEntity.ok("로그인 성공");
         } catch (IllegalArgumentException e) {
@@ -59,11 +57,13 @@ public class LoginController {
         // JWT 토큰에서 사용자 정보 추출
         try {
             String username = jWTUtil.getUsername(token);
-            System.out.println("jWTUtil = " + username);
+            String role = jWTUtil.getRole(token);
+            System.out.println("로그인한 사용자 이름 = " + username);
 
             // JSON 형식으로 사용자 이름을 반환
             Map<String, String> response = new HashMap<>();
             response.put("username", username);
+            response.put("role", role);
 
             return ResponseEntity.ok().body(response);  // JSON으로 응답
         } catch (Exception e) {

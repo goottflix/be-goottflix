@@ -41,7 +41,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         System.out.println("oauthId = " + oauthId);
 
         User existData = userMapper.findByOauthId(oauthId);
-        System.out.println("여기까지 됐을까?existData = " + existData);
 
 
         if(existData == null) {
@@ -51,9 +50,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setUsername(oAuth2Response.getName());
             user.setRole("ROLE_USER");
             userMapper.joinIn(user);
-            System.out.println("oauthId = " + oauthId);
-            System.out.println("oAuth2Response.getEmail() = " + oAuth2Response.getEmail());
-            System.out.println("oAuth2Response.getName() = " + oAuth2Response.getName());
 
             UserDTO userDTO = new UserDTO();
             userDTO.setOauthId(oauthId);
@@ -76,6 +72,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             userDTO.setName(oAuth2Response.getName());
             userDTO.setRole(existData.getRole());
             userDTO.setUserId(existData.getId());
+            userMapper.setUpdateLastLogin(existData.getId());
 
             return new CustomOAuth2User(userDTO);
         }

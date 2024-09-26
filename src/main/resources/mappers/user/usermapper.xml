@@ -14,6 +14,10 @@
          VALUES (#{username}, #{passwordHash}, #{role}, #{email},#{oauthId},#{birth}, #{gender}, #{loginId})
     </insert>
 
+    <select id="findByUserId" resultType="UserListDTO" parameterType="Long">
+        SELECT id, username, email, birth, gender, created_at, last_login, role, is_active, subscribe
+        FROM user WHERE id = #{userId}
+    </select>
     <select id="findByUserName" resultType="User" parameterType="String">
         SELECT * FROM user where username = #{username}
     </select>
@@ -30,6 +34,33 @@
                         role = #{role},
                         oauthId = #{oauthId}
                      where oauthId = #{oauthId}
+    </update>
+    <select id="getUserList" resultType="UserListDTO">
+        SELECT id,loginId, username, email, birth, gender, created_at, last_login, role, is_active, subscribe
+        FROM user
+    </select>
+
+    <update id="setUserAdmin" parameterType="Long">
+        UPDATE user SET role = 'ROLE_ADMIN' where id = #{userId}
+    </update>
+    <update id="setUserUser" parameterType="Long">
+        UPDATE user SET role = 'ROLE_USER' where id = #{userId}
+    </update>
+    <update id="setUserSubscribe" parameterType="Long">
+        UPDATE user SET subscribe = 'subscribe' where id = #{userId}
+    </update>
+    <update id="setUserExpired" parameterType="Long">
+        UPDATE user SET subscribe = 'expired' where id = #{userId}
+    </update>
+    <update id="updateProfile" parameterType="UpdateDTO">
+        UPDATE user SET username = #{username},
+                        email = #{email},
+                        birth = #{birth},
+                        gender = #{gender}
+        WHERE id = #{id}
+    </update>
+    <update id="setUpdateLastLogin" parameterType="Long">
+        UPDATE user SET last_login = now() WHERE id = #{id}
     </update>
 
 </mapper>

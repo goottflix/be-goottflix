@@ -24,6 +24,8 @@ public class LoginService {
         if (user != null && passwordEncoder.matches(loginDTO.getPassword(), user.getPasswordHash())) {
             // 로그인 성공 시 JWT 토큰 생성
             String token = jWTUtil.createJwt(user.getId(), user.getUsername(), user.getRole(), 60 * 60 * 60L * 1000);
+
+            userMapper.setUpdateLastLogin(jWTUtil.getUserID(token));
             return token;  // 토큰 반환
         } else {
             throw new IllegalArgumentException("로그인 실패");
