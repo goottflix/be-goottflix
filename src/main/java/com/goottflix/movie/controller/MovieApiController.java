@@ -6,6 +6,7 @@ import com.goottflix.review.model.Review;
 import com.goottflix.review.service.ReviewService;
 import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
+import com.goottflix.user.service.AdminService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ public class MovieApiController {
     private final ReviewService reviewService;
     private final SubscribeService subscribeService;
     private final JWTUtil jWTUtil;
+    private final AdminService adminService;
 
     @GetMapping("/list")
     public List<Movie> getMovies() {
@@ -60,6 +62,10 @@ public class MovieApiController {
 
     @PostMapping("/subscribe")
     public void subscribe(@CookieValue("Authorization") String token){
-        subscribeService.save(jWTUtil.getUserID(token));
+        boolean saved = subscribeService.save(jWTUtil.getUserID(token));
+
+        if (saved) {
+            adminService.setUserSubscribe(jWTUtil.getUserID(token));
+        }
     }
 }

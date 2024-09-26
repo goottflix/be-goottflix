@@ -29,7 +29,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
         if(requestURI.equals("/api/join") || requestURI.equals("/api/login")) {
             filterChain.doFilter(request, response);
-            System.out.println(" 여기 사람있어요  ");
             return;
         }
 
@@ -57,7 +56,6 @@ public class JWTFilter extends OncePerRequestFilter {
                 //조건이 해당되면 메소드 종료
             return;
         }
-        System.out.println("authorizaiton now");
         //Bearer 부분 제거 후 순수 토큰만 획득
 //        String token = authorization.split(" ")[1];
         String token = authorization;

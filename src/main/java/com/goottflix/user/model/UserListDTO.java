@@ -2,33 +2,20 @@ package com.goottflix.user.model;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-public class User {
-
+public class UserListDTO {
     private Long id;
-    private String username;
     private String loginId;
+    private String username;
     private String email;
-    private String passwordHash;
-    private String oauthId;
-    private LocalDate birth;
-    private Gender gender;
+    private Date birth;
+    private User.Gender gender;
     private LocalDateTime createdAt;
     private LocalDateTime lastLogin;
     private String role;
     private boolean isActive;
-    private String preference;
     private String subscribe;
-
-    public enum Gender {
-        M, F
-    }
-
 }
-
-
-
-
