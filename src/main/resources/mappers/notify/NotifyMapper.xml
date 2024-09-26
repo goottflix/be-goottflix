@@ -20,20 +20,10 @@
         SELECT * FROM notifys WHERE user_id = #{userId}
     </select>
 
-    
-
-<!--    <select id="findById" parameterType="NotifyEntity" resultType="friendNotifyDTO">-->
-<!--        select n.*, u.email, u.username-->
-<!--        from notifys as n-->
-<!--        join user as u on n.user_id = u.id where id = #{id}-->
-<!--    </select>-->
-
-
-<!--    SELECT n.*, u.user_id, u.user_name-->
-<!--    FROM notification n-->
-<!--    JOIN user u-->
-<!--    ON n.user_id = u.user_id-->
-<!--    WHERE u.user_id = '원하는_user_id';-->
+<!--알림 삭제 -->
+    <delete id="deleteNotify" parameterType="long">
+        delete from notifys where id = #{notifyId}
+    </delete>
 
 
 </mapper>

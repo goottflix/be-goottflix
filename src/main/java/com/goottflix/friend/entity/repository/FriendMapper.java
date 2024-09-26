@@ -11,11 +11,12 @@ import java.util.List;
 public interface FriendMapper {
 
     // 친구 검색
-    List<FriendNotifyDTO> searchFriend(@Param("searchTerm") String searchTerm);
+    List<FriendNotifyDTO> searchFriend();
 
     // 친구 추가
     void addFriend(@Param("userId") Long userId, @Param("friendId") Long friendId);
 
     List<FriendNotifyDTO> friendList(@Param("userId") Long userId);
 
+    boolean existsByFriendId(Long userId, Long friendId);
 }

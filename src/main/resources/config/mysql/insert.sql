@@ -39,7 +39,7 @@ VALUES (null, 2, 2, 3.5, '그냥 그랬어요.', 0);
 
 INSERT INTO notifys
 (id, user_id, movie_id, content, url, is_read, notify_type)
- VALUES (null, 1, null, '친구신청왔습니다','add/friend',false, 'friendadd');
+ VALUES (null, 1, null, '친구신청왔습니다','add/friend',false, 'friendAdd');
 
 INSERT INTO notifys
 (id, user_id, movie_id, content, url, is_read, notify_type)

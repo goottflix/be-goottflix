@@ -1,9 +1,10 @@
 package com.goottflix.notify.controller;
 
 
-import com.goottflix.friend.entity.FriendNotifyDTO;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.service.NotifyService;
+import com.goottflix.user.jwt.JWTUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notify")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class NotifyController {
 
     private final NotifyService notifyService;
-
+    private final JWTUtil jwtUtil;
 
     // 영화 업데이트
     @PostMapping("/movieupdate")
@@ -48,14 +50,15 @@ public class NotifyController {
 
 
     // sse 구현
-    @GetMapping(value = "/subscribe/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(@PathVariable Long userId) {
+    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe(@CookieValue("Authorization") String token) {
+        Long userId = jwtUtil.getUserID(token);
         return notifyService.subscribe(userId);
     }
 
     // 알림 읽음 확인
-    @PutMapping("/read/{notifyId}")
-    public ResponseEntity<?> readNotify(@RequestParam Long userId, @PathVariable Long notifyId) {
+    @PutMapping("/read")
+    public ResponseEntity<?> readNotify(@RequestParam Long userId, @RequestParam Long notifyId) {
         try {
             // 서비스 계층에서 알림 읽음 처리
             notifyService.notifyRead(userId, notifyId);
@@ -65,16 +68,25 @@ public class NotifyController {
         }
     }
     // 알림 전체 조회
-    @GetMapping("/all/{userId}")
-    public ResponseEntity<List<NotifyEntity>> getAllNotify(@PathVariable Long userId) {
-        try {
-            List<NotifyEntity> notifyEntities = notifyService.getAllNotify(userId);
+    @GetMapping("/allnotify")
+    public ResponseEntity<List<NotifyEntity>> getAllNotify(@CookieValue("Authorization") String token) {
+        System.out.println("jwtutil = " + jwtUtil.getUserID(token));
+
+            List<NotifyEntity> notifyEntities = notifyService.getAllNotify(jwtUtil.getUserID(token));
+            System.out.println("notifyEntities = " + notifyEntities.size());
             return ResponseEntity.ok(notifyEntities);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
+    // 알림 삭제
+    @DeleteMapping("/deleteNotify")
+    public ResponseEntity<?> deleteNotify(@RequestParam Long notifyId) {
+        try {
+            notifyService.deleteNotify(notifyId);
+            return ResponseEntity.ok("알림 삭제 성공");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("실패");
+        }
+    }
 
 
 }

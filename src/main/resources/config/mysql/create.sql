@@ -38,7 +38,7 @@ CREATE TABLE  notifys  (
                            content 	varchar(255)	NULL,
                            url 	varchar(255)	NULL,
                            is_read 	boolean	default false NULL,
-                           notify_type 	enum('movieUpdate','friendadd')	NULL
+                           notify_type 	enum('movieUpdate','friendAdd')	NULL
 );
 DROP TABLE IF EXISTS cards;
 CREATE TABLE  cards  (

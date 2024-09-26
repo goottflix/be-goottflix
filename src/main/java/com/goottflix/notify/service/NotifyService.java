@@ -5,6 +5,7 @@ import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -69,7 +70,7 @@ public class NotifyService {
     }
 
     public SseEmitter subscribe(Long userId) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); //Long.MAX_VALUE 클라이너트 구독시간 무제한
         clients.put(userId, emitter);
         emitter.onCompletion(() -> clients.remove(userId)); // 연결 종료시 제거
         emitter.onTimeout(() -> clients.remove(userId)); // 시간 지나면 제거
@@ -85,5 +86,12 @@ public class NotifyService {
     public List<NotifyEntity> getAllNotify(Long userId) {
         return notifyMapper.findAllUserNotify(userId);
     }
+
+    // 알림 삭제
+    public void deleteNotify(Long notifyId) {
+        notifyMapper.deleteNotify(notifyId);
+    }
+
+
 
 }

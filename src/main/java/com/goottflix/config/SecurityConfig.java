@@ -81,8 +81,8 @@ public class SecurityConfig {
         //경로별 인가작업
         http
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/api/login","/","/api/join","/**").permitAll()
+                      .requestMatchers("/notify/subscribe").permitAll()
+                        .requestMatchers("/api/login","/","/api/**").permitAll()
                         .anyRequest().authenticated());
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
