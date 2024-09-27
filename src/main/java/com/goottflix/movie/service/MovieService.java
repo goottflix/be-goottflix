@@ -29,7 +29,6 @@ public class MovieService {
         if(!file.isEmpty()){
             movie.setPosterUrl(handleFileUpload(file));
         }
-
         if(movie.getId()==null){
             movieMapper.save(movie);
         }else{

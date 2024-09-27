@@ -30,7 +30,7 @@ public class NotifyController {
     @PostMapping("/movieupdate")
     public ResponseEntity<?> addMovieUpdate(@RequestBody NotifyEntity notifyEntity) {
         try {
-            notifyService.addMovieUpdate(notifyEntity.getUserId(), notifyEntity.getMovieId());
+            notifyService.addMovieUpdate(notifyEntity.getMovieId());
             return ResponseEntity.ok("업데이트 알림 완료");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트에 실패했습니다");

@@ -17,21 +17,26 @@ public class SubscribeService {
     private final SubscribeMapper subscribeMapper;
 
     public boolean save(Long userId){
-        Subscribe subscribe = subscribeMapper.findByUserId(userId);
 
-        if(subscribe==null){
-            subscribe=new Subscribe();
-            subscribe.setUserId(userId);
-            subscribe.setSubscribeStart(LocalDate.now());
-            subscribe.setSubscribeEnd(LocalDate.now().plusMonths(1));
-            subscribeMapper.save(subscribe);
-            return true;
-        }else{
-            subscribe.setSubscribeEnd(subscribe.getSubscribeEnd().plusMonths(1));
-            subscribeMapper.update(subscribe);
-            return true;
+        try{
+            Subscribe subscribe = subscribeMapper.findByUserId(userId);
+
+            if(subscribe==null){
+                subscribe=new Subscribe();
+                subscribe.setUserId(userId);
+                subscribe.setSubscribeStart(LocalDate.now());
+                subscribe.setSubscribeEnd(LocalDate.now().plusMonths(1));
+                subscribeMapper.save(subscribe);
+                return true;
+            }else{
+                subscribe.setSubscribeEnd(subscribe.getSubscribeEnd().plusMonths(1));
+                subscribeMapper.update(subscribe);
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-
     }
 
 }
