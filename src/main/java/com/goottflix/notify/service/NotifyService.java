@@ -5,6 +5,7 @@ import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -59,8 +60,8 @@ public class NotifyService {
     // sse로 알림 전송하는 메소드
     private void sendNotify(Long userId, NotifyEntity notify) {
         SseEmitter emitter = clients.get(userId);
-        if(emitter != null) {
-            try{
+        if (emitter != null) {
+            try {
                 emitter.send(SseEmitter.event().name("notify").data(notify));
             } catch (IOException e) {
                 clients.remove(userId);
@@ -90,7 +91,6 @@ public class NotifyService {
     public void deleteNotify(Long notifyId) {
         notifyMapper.deleteNotify(notifyId);
     }
-
 
 
 }
