@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/friend")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class FriendController {
 
     private final FriendService friendService;
@@ -43,6 +44,16 @@ public class FriendController {
         friendService.addFriend(jwtUtil.getUserID(token), friendId);
         notifyService.addFriendUpdate(friendId);
         return ResponseEntity.ok("친구 추가 성공");
+    }
+
+    // 친구 삭제
+    @DeleteMapping("/remove")
+    public ResponseEntity<?> removeFriend(@CookieValue("Authorization") String token, @RequestParam Long id) {
+        Long userId = jwtUtil.getUserID(token);
+        System.out.println("userId = " + userId);
+        System.out.println("id = " + id);
+        friendService.removeFriend(userId, id);
+        return ResponseEntity.ok("친구 삭제완료");
     }
 
     // 친구 목록

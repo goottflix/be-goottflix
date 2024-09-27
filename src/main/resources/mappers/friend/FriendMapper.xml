@@ -14,6 +14,16 @@
         VALUES (#{userId}, #{friendId})
     </insert>
 
+    <delete id="deleteFriend">
+        DELETE FROM friends
+        WHERE user_id = #{userId} AND friend_id = #{friendId}
+    </delete>
+
+    <select id="findById" parameterType="Long" resultType="Long">
+        select friend_id FROM friends
+        WHERE id = #{id}
+    </select>
+
 
     <select id="friendList" parameterType="Long" resultType="FriendNotifyDTO">
         SELECT f.id, u.username, u.email
