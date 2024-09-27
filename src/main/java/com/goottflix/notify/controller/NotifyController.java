@@ -52,6 +52,7 @@ public class NotifyController {
     // sse 구현
     @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(@CookieValue("Authorization") String token) {
+        System.out.println("sse작동중");
         Long userId = jwtUtil.getUserID(token);
         return notifyService.subscribe(userId);
     }

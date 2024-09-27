@@ -60,10 +60,13 @@ public class NotifyService {
     // sse로 알림 전송하는 메소드
     private void sendNotify(Long userId, NotifyEntity notify) {
         SseEmitter emitter = clients.get(userId);
+        System.out.println("작동 테스트 1");
         if (emitter != null) {
             try {
+                System.out.println("트라이문 들어왔음");
                 emitter.send(SseEmitter.event().name("notify").data(notify));
             } catch (IOException e) {
+                System.out.println("sse오류낫음");
                 clients.remove(userId);
             }
         }
