@@ -28,6 +28,10 @@
         SELECT * FROM user where oauthId = #{oauthId}
     </select>
 
+    <select id="findAllUserId" resultType="Long">
+        SELECT id FROM user
+    </select>
+
     <update id="updateUser" parameterType="User" >
         UPDATE user set username = #{username},
                         email = #{email},
@@ -62,5 +66,7 @@
     <update id="setUpdateLastLogin" parameterType="Long">
         UPDATE user SET last_login = now() WHERE id = #{id}
     </update>
+
+
 
 </mapper>

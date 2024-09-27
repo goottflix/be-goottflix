@@ -22,6 +22,10 @@ public interface UserMapper {
 
     void updateUser(User user);
 
+    List<Long> findAllUserId();
+
+
+
 
 
 

@@ -14,11 +14,14 @@
     </select>
 
     <insert id="save">
-        insert into movies(title, description, release_date, rating, genre, director, poster_url) values(#{title},#{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl})
+        insert into movies(title, intro, description, release_date, rating, genre, director, poster_url)
+        values(#{title},#{intro}, #{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl})
     </insert>
 
     <update id="update">
-        update movies set title=#{title}, description=#{description}, release_date=#{releaseDate}, rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl} where id=#{id}
+        update movies set title=#{title}, description=#{description}, release_date=#{releaseDate},
+                          rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl}
+                      where id=#{id}
     </update>
 
     <delete id="delete">
