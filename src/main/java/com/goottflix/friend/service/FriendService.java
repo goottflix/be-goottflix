@@ -4,12 +4,14 @@ import com.goottflix.friend.entity.repository.FriendMapper;
 import com.goottflix.friend.entity.FriendNotifyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FriendService {
 
     private final FriendMapper friendMapper;
@@ -23,6 +25,13 @@ public class FriendService {
     public void addFriend(Long userId, Long friendId) {
         friendMapper.addFriend(userId, friendId);
         friendMapper.addFriend(friendId, userId);
+    }
+
+    // 친구 삭제
+    public void removeFriend(Long userId, Long id) {
+        Long friendId = friendMapper.findById(id);
+    friendMapper.deleteFriend(userId, friendId);
+    friendMapper.deleteFriend(friendId, userId);
     }
 
     // 친구 목록 조회
