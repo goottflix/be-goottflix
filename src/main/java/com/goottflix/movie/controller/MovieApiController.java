@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -67,5 +68,12 @@ public class MovieApiController {
         if (saved) {
             adminService.setUserSubscribe(jWTUtil.getUserID(token));
         }
+    }
+
+    @PostMapping("/movie/write")
+    public ResponseEntity<?> writePost(Movie movie, @RequestParam("file") MultipartFile file) throws IOException {
+        movieService.save(movie, file);
+
+        return ResponseEntity.ok().build();
     }
 }
