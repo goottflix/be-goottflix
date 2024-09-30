@@ -81,7 +81,7 @@ public class SecurityConfig {
         //경로별 인가작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                      .requestMatchers("/notify/subscribe").permitAll()
+                      .requestMatchers("/notify/subscribe","/book/nfc-data").permitAll()
                         .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
                         .anyRequest().authenticated());
         http
