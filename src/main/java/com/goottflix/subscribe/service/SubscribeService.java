@@ -27,7 +27,12 @@ public class SubscribeService {
             subscribeMapper.save(subscribe);
             return true;
         }else{
-            subscribe.setSubscribeEnd(subscribe.getSubscribeEnd().plusMonths(1));
+            if(LocalDate.now().isAfter(subscribe.getSubscribeEnd())){
+                subscribe.setSubscribeEnd(subscribe.getSubscribeEnd().plusMonths(1));
+            }else if(LocalDate.now().isBefore(subscribe.getSubscribeEnd())){
+                subscribe.setSubscribeStart(LocalDate.now());
+                subscribe.setSubscribeEnd(LocalDate.now().plusMonths(1));
+            }
             subscribeMapper.update(subscribe);
             return true;
         }
