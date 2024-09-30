@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Tag Data</title>
+</head>
+<body>
+<h1>NFC Tag Data</h1>
+<div id="nfc-data">Waiting for NFC tag...</div>
+
+<script>
+    // /book/nfc-data 엔드포인트와 SSE 연결
+    const eventSource = new EventSource('/book/nfc-data');
+
+    // 서버로부터 메시지를 수신하면 데이터를 화면에 표시
+    eventSource.onmessage = function(event) {
+        const nfcData = event.data;
+        document.getElementById("nfc-data").textContent = "NFC Tag UID: " + nfcData;
+    };
+
+    // 에러 발생 시 처리
+    eventSource.onerror = function() {
+        document.getElementById("nfc-data").textContent = "Connection error.";
+    };
+</script>
+</body>
+</html>

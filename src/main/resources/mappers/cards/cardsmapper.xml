@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.goottflix.book.model.repository.CardMapper">
+
+    <select id="countCardByUid" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM cards WHERE card_id = #{cardId}
+    </select>
+
+    <insert id="saveCardId" parameterType="String">
+        INSERT INTO cards (card_id) VALUES (#{cardId})
+    </insert>
+    <select id="findBookInfo" parameterType="String" resultType="BookInfo">
+        SELECT c.id, c.entered, c.show_time, c.seat_number, c.room_number, c.card_id,
+               m.director, m.title, m.genre,
+               u.gender, u.birth, u.loginId, u.username
+        FROM cards c
+                 JOIN movies m on c.movie_id = m.id
+                 JOIN user u on c.user_id = u.id
+        WHERE c.card_id = #{uid}
+    </select>
+
+</mapper>
