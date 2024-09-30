@@ -56,20 +56,37 @@ public class MovieApiController {
     public void addReview(@CookieValue("Authorization") String token,
                           @RequestParam("movieId") Long movieId,
                           @RequestParam("rating") int rating,
-                          @RequestParam(name="review", required=false) String review) throws IOException{
+                          @RequestParam(name="review", required=false) String review){
         Review review1 = new Review();
 
-        review1.setUserId(jWTUtil.getUserID(token));
-        review1.setMovieId(movieId);
-        review1.setRating(rating);
-        if(review!=null){
-            review1.setReview(review);
+        if(jWTUtil.getUserID(token)!=null){
+            review1.setUserId(jWTUtil.getUserID(token));
+            review1.setMovieId(movieId);
+            review1.setRating(rating);
+            if(review!=null){
+                review1.setReview(review);
+            }
+
+            reviewService.save(review1);
+
+            float avg = reviewService.getAverageRatingByMovieId(movieId);
+            movieService.updateRating(avg,movieId);
         }
+    }
 
-        reviewService.save(review1);
+    @GetMapping("/recommendedList")
+    public List<Movie> getRecommendedMovies(@CookieValue("Authorization") String token) {
+        Long userId = jWTUtil.getUserID(token);
+        if(userId!=null){
+            return movieService.getRecommendedMovies(userId);
+        }else{
+            return null;
+        }
+    }
 
-        float avg = reviewService.getAverageRatingByMovieId(movieId);
-        movieService.updateRating(avg,movieId);
+    @PostMapping("/recommendUp")
+    public void recommendUp(@RequestParam("userId") Long userId){
+        reviewService.recommendUp(userId);
     }
 
     @PostMapping("/subscribe")
