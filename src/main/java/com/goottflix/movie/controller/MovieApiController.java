@@ -2,11 +2,13 @@ package com.goottflix.movie.controller;
 
 import com.goottflix.movie.model.Movie;
 import com.goottflix.movie.service.MovieService;
+import com.goottflix.review.dto.ReviewAndNickname;
 import com.goottflix.review.model.Review;
 import com.goottflix.review.service.ReviewService;
 import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
 import com.goottflix.user.service.AdminService;
+import com.goottflix.user.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,7 @@ public class MovieApiController {
     private final SubscribeService subscribeService;
     private final JWTUtil jWTUtil;
     private final AdminService adminService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public List<Movie> getMovies() {
@@ -36,9 +40,16 @@ public class MovieApiController {
     }
 
     @GetMapping("/review")
-    public List<Review> getReview(@RequestParam("movieId") Long movieId) {
+    public List<ReviewAndNickname> getReview(@RequestParam("movieId") Long movieId) {
+        List<Review> reviews = reviewService.getReviewByMovieId(movieId);
+        List<ReviewAndNickname> reviewAndNicknames = new ArrayList<>();
 
-        return reviewService.getReviewByMovieId(movieId);
+        for(Review review : reviews) {
+            String nickname = userService.findUsernameByuserId(review.getUserId());
+            reviewAndNicknames.add(new ReviewAndNickname(review, nickname));
+        }
+
+        return reviewAndNicknames;
     }
 
     @PostMapping("/review")
