@@ -3,7 +3,14 @@
 <mapper namespace="com.goottflix.chat.entity.mapper.MessageMapper">
 
 
+    <insert id="insertMessage">
+        INSERT INTO message(chat_room_id, sender_id, content)
+        VALUES (#{chatRoomId}, #{senderId}, #{content})
+    </insert>
 
+    <select id="getMessagesByChatRoomId" resultType="Message">
+        SELECT * FROM message WHERE chat_room_id = #{chatRoomId} ORDER BY send_at
+    </select>
 
 
 </mapper>
