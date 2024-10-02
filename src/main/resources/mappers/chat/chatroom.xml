@@ -8,13 +8,13 @@
         VALUES (#{userId1}, #{userId2})
     </insert>
 
-    <select id="getChatRoomByUserIds" resultType="ChatRoom">
+    <select id="getChatRoomByUserIds" resultType="ChatRoomDTO">
         SELECT * FROM chatroom WHERE (user_id_1 = #{userId1}
         AND user_id_2 = #{userId2})
         OR (user_id_1 = #{userId2} AND user_id_2 = #{userId1})
     </select>
 
-    <select id="getAllChatRooms" resultType="ChatRoom">
+    <select id="getAllChatRooms" resultType="ChatRoomDTO">
         SELECT * FROM chatroom
     </select>
 

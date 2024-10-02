@@ -8,7 +8,7 @@
         VALUES (#{chatRoomId}, #{senderId}, #{content})
     </insert>
 
-    <select id="getMessagesByChatRoomId" resultType="Message">
+    <select id="getMessagesByChatRoomId" resultType="MessageDTO">
         SELECT * FROM message WHERE chat_room_id = #{chatRoomId} ORDER BY send_at
     </select>
 
