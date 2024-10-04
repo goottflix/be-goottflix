@@ -39,10 +39,9 @@ public class JWTFilter extends OncePerRequestFilter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for(Cookie cookie : cookies) {
-                System.out.println("cookie.getName() = " + cookie.getName());
                 if(cookie.getName().equals("Authorization")) {
                     authorization = cookie.getValue();
-                    System.out.println("JWT토큰 찾았땅~ = " + authorization);
+                    System.out.println("현재 유저의 JWT토큰 = " + authorization);
                     break;
                 }
             }

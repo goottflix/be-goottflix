@@ -8,6 +8,16 @@
        FROM user
        WHERE loginId = #{loginId}
     </select>
+    <select id="existsByEmail" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE email = #{email}
+    </select>
+    <select id="existsByUsername" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user
+        WHERE username = #{username}
+    </select>
 
     <insert id="joinIn" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user (username,password_hash,role, email,oauthId, birth, gender, loginId)
@@ -58,7 +68,6 @@
     </update>
     <update id="updateProfile" parameterType="UpdateDTO">
         UPDATE user SET username = #{username},
-                        email = #{email},
                         birth = #{birth},
                         gender = #{gender}
         WHERE id = #{id}
@@ -67,6 +76,12 @@
         UPDATE user SET last_login = now() WHERE id = #{id}
     </update>
 
-
+    <select id="findByEmail" parameterType="String" resultType="LoginDTO">
+        SELECT loginId, password_hash FROM user
+        WHERE email = #{email}
+    </select>
+    <update id="setUserNewPassword" parameterType="LoginDTO">
+        UPDATE user SET password_hash = #{password} where loginId = #{loginId}
+    </update>
 
 </mapper>

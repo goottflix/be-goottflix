@@ -82,7 +82,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
 //                      .requestMatchers("/notify/subscribe","/book/nfc-data").permitAll()
-                        .requestMatchers("/auth/sendCode", "/auth/verifyCode").permitAll() // 회원가입 시 메일인증요청
+                        .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
                         .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
                         .anyRequest().authenticated());
         http

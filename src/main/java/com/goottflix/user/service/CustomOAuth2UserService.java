@@ -11,6 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -38,16 +40,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         String oauthId = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
-        System.out.println("oauthId = " + oauthId);
 
         User existData = userMapper.findByOauthId(oauthId);
+        String randomCode = String.format("%06d", new Random().nextInt(1000));
+
 
 
         if(existData == null) {
             User user = new User();
             user.setOauthId(oauthId);
             user.setEmail(oAuth2Response.getEmail());
-            user.setUsername(oAuth2Response.getName());
+            user.setUsername(oAuth2Response.getProvider()+oAuth2Response.getName()+randomCode);
             user.setRole("ROLE_USER");
             userMapper.joinIn(user);
 
@@ -60,10 +63,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return new CustomOAuth2User(userDTO);
 
         } else {
-            existData.setUsername(oAuth2Response.getName());
-            existData.setEmail(oAuth2Response.getEmail());
-
-            userMapper.updateUser(existData);
+//            existData.setUsername(oAuth2Response.getProvider()+oAuth2Response.getName());
+//            existData.setEmail(oAuth2Response.getEmail());
+//
+//            userMapper.updateUser(existData);
+            // username의 중복을 없애기 위해서 소셜로그인시 update는 주석처리
 
             UserDTO userDTO = new UserDTO();
             userDTO.setOauthId(oauthId);
