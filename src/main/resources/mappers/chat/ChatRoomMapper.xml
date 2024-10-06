@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.goottflix.chat.entity.mapper.ChatRoomMapper">
+
+    <select id="getAllChatRooms" resultType="ChatRoom">
+        SELECT * FROM chat_room
+    </select>
+
+    <select id="getChatRoomById" parameterType="Long" resultType="ChatRoom">
+        SELECT * FROM chat_room WHERE id = #{id}
+    </select>
+
+    <insert id="createChatRoom" parameterType="ChatRoom" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_room (name) VALUES (#{name})
+    </insert>
+
+    <delete id="deleteChatRoom" parameterType="Long">
+        DELETE FROM chat_room WHERE id = #{id}
+    </delete>
+
+
+</mapper>
