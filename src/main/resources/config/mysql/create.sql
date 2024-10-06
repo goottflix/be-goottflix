@@ -93,23 +93,20 @@ CREATE TABLE Friends(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
-DROP TABLE IF EXISTS chatroom;
-CREATE TABLE chatroom(
-    id int auto_increment primary key NOT NULL ,
-    user_id_1 int,
-    user_id_2 int,
-    created_at TIMESTAMP DEFAULT NOW()
+DROP TABLE IF EXISTS chat_room;
+CREATE TABLE chat_room (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(255) NOT NULL
 );
 
-DROP TABLE IF EXISTS message;
-CREATE TABLE message
-(
-    id           int auto_increment primary key NOT NULL,
-    chat_room_id int,
-    sender_id    int,
-    content      TEXT,
-    send_at      TIMESTAMP DEFAULT NOW()
+
+DROP TABLE IF EXISTS chat_message;
+CREATE TABLE chat_message (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+room_id BIGINT NOT NULL,
+sender VARCHAR(255) NOT NULL,
+ message TEXT NOT NULL,
+ timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (room_id) REFERENCES chat_room(id)
 );
 

@@ -82,7 +82,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                       .requestMatchers("/notify/subscribe").permitAll()
-                        .requestMatchers("/api/login","/","/api/**").permitAll()
+                        .requestMatchers("/api/login","/","/api/**","/ws/**").permitAll()
                         .anyRequest().authenticated());
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

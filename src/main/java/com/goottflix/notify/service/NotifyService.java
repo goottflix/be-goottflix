@@ -3,6 +3,7 @@ package com.goottflix.notify.service;
 
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
+import com.goottflix.user.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,6 +23,7 @@ public class NotifyService {
 
     private final NotifyMapper notifyMapper;
     private final Map<Long, SseEmitter> clients = new ConcurrentHashMap<>();
+    private final JWTUtil jwtUtil;
 
     // 영화 추가 알림 메소드
     public void addMovieUpdate(Long userId, Long movieId) {
