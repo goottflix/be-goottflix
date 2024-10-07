@@ -13,5 +13,5 @@ public interface ChatRoomMapper {
     ChatRoom getChatRoomById(Long id);
     int createChatRoom(ChatRoom chatRoom);
     int deleteChatRoom(Long id);
-
+    String getChatRoomNameById(Long id);
 }

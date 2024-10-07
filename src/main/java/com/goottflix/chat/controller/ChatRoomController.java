@@ -38,10 +38,20 @@ public class ChatRoomController {
         return chatRoomService.deleteChatRoom(id);
     }
 
+
     @GetMapping("/getusername")
     public ResponseEntity<?> userName(@CookieValue("Authorization") String token) {
         String username = jwtUtil.getUsername(token);
         System.out.println("username = " + username);
         return ResponseEntity.ok(Collections.singletonMap("username", username));
     }
+
+
+    @GetMapping("/{id}/name")
+    public ResponseEntity<?> getChatRoomNameById(@PathVariable Long id) {
+        String roomName = chatRoomService.getChatRoomNameById(id);
+        return ResponseEntity.ok(roomName);
+    }
+
+
 }

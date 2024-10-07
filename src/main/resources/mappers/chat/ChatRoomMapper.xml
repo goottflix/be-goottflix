@@ -18,5 +18,8 @@
         DELETE FROM chat_room WHERE id = #{id}
     </delete>
 
+    <select id="getChatRoomNameById" parameterType="Long" resultType="String">
+        SELECT name FROM chat_room Where id = #{id}
+    </select>
 
 </mapper>

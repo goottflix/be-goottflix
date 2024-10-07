@@ -32,4 +32,8 @@ public class ChatRoomService {
         return chatRoomMapper.deleteChatRoom(id);
     }
 
+    public String getChatRoomNameById(Long id) {
+        return chatRoomMapper.getChatRoomNameById(id);
+    }
+
 }
