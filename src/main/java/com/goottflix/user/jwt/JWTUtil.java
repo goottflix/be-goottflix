@@ -49,6 +49,15 @@ public class JWTUtil {
                 .get("role", String.class);
     }
 
+    public String getEmail(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("email", String.class);
+    }
+
     public Boolean isExpired(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -71,6 +80,22 @@ public class JWTUtil {
                 .claim("userId", userID)
                 .claim("username", username)
                 .claim("role", role)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String createPsswordResetJwt(String email,Long expiredMs) {
+
+        Date now = new Date(System.currentTimeMillis());
+        Date expired = new Date(System.currentTimeMillis() + expiredMs);
+
+        logger.info("비밀번호 재설정 JWT 발급 시간 : " +now);
+        logger.info("비밀번호 재설정 JWT 만료 시간 : "+ expired);
+
+        return Jwts.builder()
+                .claim("email", email)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)

@@ -18,7 +18,6 @@ public class UserService {
         if(user!=null){
             user.setId(user.getId());
             user.setUsername(user.getUsername());
-            user.setEmail(user.getEmail());
             user.setBirth(user.getBirth());
             user.setGender(user.getGender());
             userMapper.updateProfile(user);
