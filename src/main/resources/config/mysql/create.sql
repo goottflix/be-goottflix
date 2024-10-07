@@ -45,6 +45,7 @@ DROP TABLE IF EXISTS cards;
 CREATE TABLE  cards  (
                          id 	int auto_increment primary key	NOT NULL,
                          user_id 	int	NULL,
+                        card_id varchar(255) null,
                          show_time 	timestamp	NULL,
                          room_number 	int	NULL,
                          seat_number 	varchar(20)	NULL,

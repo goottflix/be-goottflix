@@ -15,11 +15,11 @@ VALUES (null, '나건웅','gallawer@gmail.com','1234','1234','1994-10-12','F',nu
 
 INSERT INTO subscribe
 (id, user_id, subscribe_start, subscribe_end)
- VALUES (null, 1, now(), null);
+ VALUES (null, 1, now(), now()+month(1));
 
 INSERT INTO subscribe
 (id, user_id, subscribe_start, subscribe_end)
- VALUES (null, 2, now(), null);
+ VALUES (null, 2, now(), now()+month(1));
 
 INSERT INTO review
 (id, user_id, movie_id, rating, review, recommend)

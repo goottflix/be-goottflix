@@ -1,9 +1,11 @@
 package com.goottflix.notify.service;
 
 
+import com.goottflix.movie.mapper.MovieMapper;
+import com.goottflix.movie.model.Movie;
 import com.goottflix.notify.entity.NotifyEntity;
 import com.goottflix.notify.entity.repository.NotifyMapper;
-import com.goottflix.user.jwt.JWTUtil;
+import com.goottflix.user.model.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,25 +24,27 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NotifyService {
 
     private final NotifyMapper notifyMapper;
+    private final UserMapper userMapper;
     private final Map<Long, SseEmitter> clients = new ConcurrentHashMap<>();
-    private final JWTUtil jwtUtil;
+    private final MovieMapper movieMapper;
 
     // 영화 추가 알림 메소드
-    public void addMovieUpdate(Long userId, Long movieId) {
-        NotifyEntity notify = new NotifyEntity();
-        notify.setContent("새로운 영화가 업데이트 되었습니다");
-        notify.setUrl("/movie" + movieId); // 이 부분은 프론트에서 url 지정하는거에 따라 변화할거임
-        notify.setIsRead(false);
-        notify.setNotifyType(NotifyEntity.NotifyType.movieUpdate);
-        notify.setUserId(userId);
-        notify.setMovieId(movieId);
+    public void addMovieUpdate(Long movieId) {
 
-
-        // 새로운 알림을 DB에 저장한다잉
-        notifyMapper.insertNotify(notify);
-
-
-        sendNotify(userId, notify);
+        List<Long> userIds = userMapper.findAllUserId();
+        Movie movie = movieMapper.findById(movieId);
+        for (Long id : userIds) {
+            NotifyEntity notify = new NotifyEntity();
+            notify.setContent("주목할만한 영화 "+movie.getTitle()+"가 업데이트 되었습니다");
+            notify.setUrl("/movie" + movieId); // 이 부분은 프론트에서 url 지정하는거에 따라 변화할거임
+            notify.setIsRead(false);
+            notify.setNotifyType(NotifyEntity.NotifyType.movieUpdate);
+            notify.setUserId(id);
+            notify.setMovieId(movieId);
+            // 새로운 알림을 DB에 저장한다잉
+            notifyMapper.insertNotify(notify);
+            sendNotify(id, notify);
+        }
 
     }
 
@@ -50,7 +54,7 @@ public class NotifyService {
         notify.setContent("새로운 친구가 추가되었습니다");
         notify.setUrl("/friend" + userId); // 프론트에서 url 설정하는거에 따라 변동
         notify.setIsRead(false);
-        notify.setNotifyType(NotifyEntity.NotifyType.friendAdd);
+        notify.setNotifyType(NotifyEntity.NotifyType.friendadd);
         notify.setUserId(userId);
 
         notifyMapper.insertNotify(notify);

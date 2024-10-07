@@ -81,8 +81,9 @@ public class SecurityConfig {
         //경로별 인가작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                      .requestMatchers("/notify/subscribe").permitAll()
-                        .requestMatchers("/api/login","/","/api/**","/ws/**").permitAll()
+//                      .requestMatchers("/notify/subscribe","/book/nfc-data").permitAll()
+                        .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
+                        .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
                         .anyRequest().authenticated());
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

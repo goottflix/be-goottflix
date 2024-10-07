@@ -17,7 +17,7 @@ public class NotifyEntity {
 
 
     public enum NotifyType {
-        movieUpdate, friendAdd //알림 종류
+        movieUpdate, friendadd //알림 종류
     }
 
 
