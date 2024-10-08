@@ -28,7 +28,8 @@ CREATE TABLE  movies  (
                           rating 	decimal(3,2)	NULL	COMMENT '영화 평균별점 (1.0~5.0)',
                           genre 	varchar(50)	NULL	COMMENT '액션,코미디,드라마 등등',
                           director 	varchar(50)	NULL,
-                          poster_url 	varchar(255)	NULL
+                          poster_url 	varchar(255)	NULL,
+                          video_Url varchar(255) NULL
 );
 
 DROP TABLE IF EXISTS notifys;
