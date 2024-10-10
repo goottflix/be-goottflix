@@ -113,10 +113,3 @@ sender VARCHAR(255) NOT NULL,
 );
 
 
-DROP TABLE IF EXISTS qna;
-CREATE TABLE qna(
-    id BIGINT auto_increment primary key not null ,
-    writer VARCHAR(50),
-    title
-)
-
