@@ -29,4 +29,8 @@ public class UserService {
     public String findUsernameByuserId(Long userId){
         return userMapper.findByUserId(userId).getUsername();
     }
+
+    public String getUserSubscribe(Long userId){
+        return userMapper.getUserSubscribe(userId);
+    }
 }
