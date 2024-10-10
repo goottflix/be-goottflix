@@ -104,4 +104,10 @@ public class MovieApiController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/userSubscribe")
+    public boolean userSubscribe(@CookieValue("Authorization") String token){
+        boolean isSubscribe = userService.getUserSubscribe(jWTUtil.getUserID(token)).equals("subscribe");
+        return isSubscribe;
+    }
 }

@@ -84,4 +84,8 @@
         UPDATE user SET password_hash = #{password} where loginId = #{loginId}
     </update>
 
+    <select id="getUserSubscribe" resultType="String">
+        select subscribe from user where id = #{userId}
+    </select>
+
 </mapper>
