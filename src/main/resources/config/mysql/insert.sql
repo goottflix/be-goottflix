@@ -50,7 +50,7 @@ INSERT INTO notifys
  VALUES (null, 2, 2, '새로나온 영화가 있습니다.','new/movie',false, 'movieUpdate');
 
 INSERT INTO movies
-(id, title, description, release_date, rating, genre, director, poster_url, Video_Url)
+(id, title, description, release_date, rating, genre, director, poster_url, video_url)
  VALUES (null, '어벤져스', '마블 영화 어벤져스!', '2024-04-05',4.2,'액션','몰라','/files/5801039d-8a2d-45d0-9d5e-1a62c7bf61f4_어벤져스.gif', 'https://www.youtube.com/watch?v=mck3JCl2uwQ');
 
 INSERT INTO cards

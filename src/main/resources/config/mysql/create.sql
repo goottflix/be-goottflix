@@ -29,7 +29,7 @@ CREATE TABLE  movies  (
                           genre 	varchar(50)	NULL	COMMENT '액션,코미디,드라마 등등',
                           director 	varchar(50)	NULL,
                           poster_url 	varchar(255)	NULL,
-                          video_Url varchar(255) NULL
+                          video_url varchar(255) NULL
 );
 
 DROP TABLE IF EXISTS notifys;
