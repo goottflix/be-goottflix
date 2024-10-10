@@ -41,7 +41,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-mail' // spring mailsender
 
     implementation fileTree(dir: 'libs', include: ['*.jar']) // 영화진흥위원회 api 라이브러리
     implementation 'org.json:json:20210307' // json 가공의존성
@@ -54,7 +53,7 @@ dependencies {
     //dotenv
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'    //oauth2 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'//oauth2 의존성
     implementation 'org.springframework.boot:spring-boot-starter-websocket' // 실시간 채팅 기능을 위한 라이브러리
 
     implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'  //아임포트 결제시스템 라이브러리
@@ -65,8 +64,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
 }
-
-
 
 tasks.named('test') {
     useJUnitPlatform()
