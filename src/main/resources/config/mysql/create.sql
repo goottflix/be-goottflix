@@ -39,7 +39,7 @@ CREATE TABLE  notifys  (
                            content 	varchar(255)	NULL,
                            url 	varchar(255)	NULL,
                            is_read 	boolean	default false NULL,
-                           notify_type 	enum('movieUpdate','friendAdd')	NULL
+                           notify_type 	enum('movieUpdate','friendadd')	NULL
 );
 DROP TABLE IF EXISTS cards;
 CREATE TABLE  cards  (
@@ -110,4 +110,12 @@ sender VARCHAR(255) NOT NULL,
  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
  FOREIGN KEY (room_id) REFERENCES chat_room(id)
 );
+
+
+DROP TABLE IF EXISTS qna;
+CREATE TABLE qna(
+    id BIGINT auto_increment primary key not null ,
+    writer VARCHAR(50),
+    title
+)
 

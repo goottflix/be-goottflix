@@ -3,6 +3,7 @@ package com.goottflix.chat.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goottflix.chat.entity.ChatMessage;
 import com.goottflix.chat.service.ChatMessageService;
+import com.goottflix.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -18,6 +19,7 @@ public class ChatHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ChatMessageService chatMessageService;
     private final Map<Long, List<WebSocketSession>> roomSessions = new HashMap<>();
+    private final ChatRoomService chatRoomService;
 
 
 
