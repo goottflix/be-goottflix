@@ -5,6 +5,7 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import com.goottflix.book.controller.BookController;
+import com.goottflix.book.service.NfcService;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class SerialPortReader implements SerialPortDataListener {
     private final SerialPort serialPort;
-    private final BookController bookController;
+    private final NfcService nfcService;
     private StringBuilder buffer = new StringBuilder();
 
 
@@ -30,7 +31,7 @@ public class SerialPortReader implements SerialPortDataListener {
                     String rawData = new String(readBuffer, 0, numBytes, StandardCharsets.UTF_8);
                     buffer.append(rawData);  // 데이터를 누적하여 버퍼에 저장
 
-                    // 특정 키워드가 버퍼에 포함되면 처리
+                    // UID Value가 버퍼에 포함되면
                     if (buffer.indexOf("UID Value") != -1 || buffer.indexOf("UID Value :") != -1) {
                         String completeMessage = buffer.toString().trim();  // 전체 데이터를 추출
                         buffer.setLength(0);  // 버퍼 초기화
@@ -39,7 +40,7 @@ public class SerialPortReader implements SerialPortDataListener {
                         System.out.println("Processed Data: " + completeMessage);
 
                         // 데이터를 BookController로 전달
-                        bookController.sendNfcData(completeMessage);
+                        nfcService.sendNfcData(completeMessage);
                     }
                 }
             } catch (IOException e) {
