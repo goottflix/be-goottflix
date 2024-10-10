@@ -29,7 +29,7 @@ CREATE TABLE  movies  (
                           genre 	varchar(50)	NULL	COMMENT '액션,코미디,드라마 등등',
                           director 	varchar(50)	NULL,
                           poster_url 	varchar(255)	NULL,
-                          video_Url varchar(255) NULL
+                          video_url varchar(255) NULL
 );
 
 DROP TABLE IF EXISTS notifys;
@@ -40,7 +40,7 @@ CREATE TABLE  notifys  (
                            content 	varchar(255)	NULL,
                            url 	varchar(255)	NULL,
                            is_read 	boolean	default false NULL,
-                           notify_type 	enum('movieUpdate','friendAdd')	NULL
+                           notify_type 	enum('movieUpdate','friendadd')	NULL
 );
 DROP TABLE IF EXISTS cards;
 CREATE TABLE  cards  (
@@ -95,22 +95,21 @@ CREATE TABLE Friends(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-# /*채팅방 테이블*/
-# DROP TABLE IF EXISTS ChatRoom;
-# CREATE TABLE ChatRoom(
-#     id int auto_increment primary key  NOT NULL ,
-#     user1_id int,
-#     user2_id int
-# );
-#
-#
-# DROP TABLE IF EXISTS ChatMessage;
-# CREATE TABLE ChatMessage(
-#     id int auto_increment primary key NOT NULL ,
-#     room_id int,
-#     sender_id int,
-#     message text
-# )
+DROP TABLE IF EXISTS chat_room;
+CREATE TABLE chat_room (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+ name VARCHAR(255) NOT NULL
+);
 
+
+DROP TABLE IF EXISTS chat_message;
+CREATE TABLE chat_message (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+room_id BIGINT NOT NULL,
+sender VARCHAR(255) NOT NULL,
+ message TEXT NOT NULL,
+ timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (room_id) REFERENCES chat_room(id)
+);
 
 

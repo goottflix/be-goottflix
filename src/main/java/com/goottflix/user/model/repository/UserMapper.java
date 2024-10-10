@@ -35,6 +35,8 @@ public interface UserMapper {
     void setUserSubscribe(Long userId);
     void setUserExpired(Long userId);
 
+    String getUserSubscribe(Long userId);
+
     //UserService (마이페이지)
     UserListDTO findByUserId(Long userId);
     void updateProfile(UpdateDTO user);
