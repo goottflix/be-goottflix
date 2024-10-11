@@ -1,6 +1,8 @@
 package com.goottflix.user.social;
 
 import com.goottflix.user.jwt.JWTUtil;
+import com.goottflix.user.model.User;
+import com.goottflix.user.model.repository.UserMapper;
 import com.goottflix.user.social.dto.CustomOAuth2User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -21,11 +23,15 @@ import java.util.Iterator;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JWTUtil jwtUtil;
+    private final UserMapper userMapper;
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse
             response, Authentication authentication) throws IOException, ServletException {
 
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
+
+        String oauthId = customUserDetails.getName();
+        User user = userMapper.findByOauthId(oauthId);
 
         String username = customUserDetails.getUsername();
         Long userId = customUserDetails.getUserId();
@@ -40,7 +46,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 60*60*10L*100 = 1시간
         // 60*60*60L*10 = 36분
         response.addCookie(createCookie("Authorization", token));
-        response.sendRedirect("http://localhost:3000/");
+
+        if (user.getUsername().equals("new") || user.getUsername().isEmpty()) {
+            response.sendRedirect("http://localhost:3000/set-username");
+        } else {
+            response.sendRedirect("http://localhost:3000/");
+        }
     }
 
     private Cookie createCookie(String key, String value) {

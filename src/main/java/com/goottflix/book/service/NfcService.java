@@ -17,7 +17,6 @@ public class NfcService {
 
     // NFC 데이터를 처리하는 메서드
     public void sendNfcData(String uidValue) {
-        System.out.println("Received UID: " + uidValue);
 
         if (uidValue == null || uidValue.isEmpty()) {
             sink.tryEmitNext("Invalid UID received.");

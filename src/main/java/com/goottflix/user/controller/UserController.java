@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,17 +35,30 @@ public class UserController {
         userService.updateProfile(user);
     }
     @PostMapping("/username/check")
-    public ResponseEntity<String> checkUsername(@CookieValue("Authorization") String token,
-                                                @RequestParam("username") String username) {
-        boolean myName = jWTUtil.getUsername(token).equals(userMapper.findByUserName(username).getUsername());
+    public ResponseEntity<Map<String, Boolean>> checkUsername(@CookieValue("Authorization") String token,
+                                                              @RequestParam("username") String username) {
+        Map<String, Boolean> response = new HashMap<>();
+
+        User user = userMapper.findByUserName(username);
+        if (user == null) {
+            response.put("available", true);
+            return ResponseEntity.ok(response);
+        }
+
+        boolean myName = jWTUtil.getUsername(token).equals(user.getUsername());
+        System.out.println(myName);
         System.out.println("jWTUtil 에서 가져온 나의 이름은..= " + jWTUtil.getUsername(token));
-        boolean exist = userMapper.existsByUsername(username);
+
         if (myName) {
-            return ResponseEntity.ok("기존 별명입니다.");
-        } else if (exist) {
-            return ResponseEntity.badRequest().body("이미 존재하는 이름입니다.");
+            // 자신의 기존 닉네임
+            response.put("available", true);  // 여전히 사용 가능
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.ok().build();
+            // 이미 존재하는 닉네임
+            System.out.println("이미 존재하는 닉네임이야");
+            response.put("available", false);  // 사용 불가능
+            return ResponseEntity.ok(response);
         }
     }
+
 }

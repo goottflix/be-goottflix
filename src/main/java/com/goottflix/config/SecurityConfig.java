@@ -81,9 +81,8 @@ public class SecurityConfig {
         //경로별 인가작업
         http
                 .authorizeHttpRequests((auth) -> auth
-//              .requestMatchers("/notify/subscribe","/book/nfc-data").permitAll()
-                        .requestMatchers("/book/**").permitAll()
-                        .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
+                        .requestMatchers("/book/**").permitAll() // 아두이노 요청
+                        .requestMatchers("/auth/**","/set-username").permitAll() // 회원가입 시 메일인증요청
                         .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
                         .anyRequest().authenticated());
         http

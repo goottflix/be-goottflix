@@ -50,7 +50,8 @@ CREATE TABLE  cards  (
                          show_time 	timestamp	NULL,
                          room_number 	int	NULL,
                          seat_number 	varchar(20)	NULL,
-                         movie_id 	int	NULL
+                         movie_id 	int	NULL,
+                        entered varchar(50) default 'noshow'
 );
 
 DROP TABLE IF EXISTS review;
