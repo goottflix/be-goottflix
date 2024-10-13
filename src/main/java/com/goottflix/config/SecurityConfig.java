@@ -85,6 +85,7 @@ public class SecurityConfig {
                         .requestMatchers("/book/**").permitAll()
                         .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
                         .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated());
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

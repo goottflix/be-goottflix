@@ -22,4 +22,8 @@ public class ChatMessageService {
         return chatMessageMapper.insertChatMessage(chatMessage);
     }
 
+    public void insertChatMessages(ChatMessage messages) {
+        chatMessageMapper.insertChatMessages(messages);
+    }
+
 }
