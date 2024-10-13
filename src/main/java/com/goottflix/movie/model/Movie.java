@@ -17,4 +17,5 @@ public class Movie {
     private String director;
     private String posterUrl;
     private String videoUrl;
+    private String nation; // 영화 제작국가 컬럼 추가
 }

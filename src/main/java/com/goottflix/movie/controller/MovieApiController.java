@@ -9,9 +9,6 @@ import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
 import com.goottflix.user.service.AdminService;
 import com.goottflix.user.service.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +36,17 @@ public class MovieApiController {
     @GetMapping("/list")
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
+    }
+    @GetMapping("/list/page")
+    public ResponseEntity<Map<String, Object>> getMoviesPage(@RequestParam int page, @RequestParam int size) {
+        List<Movie> movies = movieService.getMoviesWithPage(page, size);
+        int totalMovies = movieService.getTotalMovieCount();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("movies", movies);
+        response.put("totalMovies", totalMovies);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/review")

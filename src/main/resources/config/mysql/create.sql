@@ -29,7 +29,8 @@ CREATE TABLE  movies  (
                           genre 	varchar(50)	NULL	COMMENT '액션,코미디,드라마 등등',
                           director 	varchar(50)	NULL,
                           poster_url 	varchar(255)	NULL,
-                          video_url varchar(255) NULL
+                          video_url varchar(255) NULL,
+                          nation varchar(100) default '한국' NULL
 );
 
 DROP TABLE IF EXISTS notifys;
@@ -50,7 +51,8 @@ CREATE TABLE  cards  (
                          show_time 	timestamp	NULL,
                          room_number 	int	NULL,
                          seat_number 	varchar(20)	NULL,
-                         movie_id 	int	NULL
+                         movie_id 	int	NULL,
+                        entered varchar(50) default 'noshow'
 );
 
 DROP TABLE IF EXISTS review;

@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
+    String findImageById(Long id);
+
     boolean existsByLoginId(String loginId);
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
@@ -27,6 +29,8 @@ public interface UserMapper {
 
     List<Long> findAllUserId();
 
+    String getUserName(Long userID);
+
     //AdminService (관리자페이지)
     List<UserListDTO> getUserList();
     void setUserAdmin(Long userId);
@@ -37,6 +41,7 @@ public interface UserMapper {
 
     String getUserSubscribe(Long userId);
 
+    User findUserByUserId(Long userId);
     //UserService (마이페이지)
     UserListDTO findByUserId(Long userId);
     void updateProfile(UpdateDTO user);

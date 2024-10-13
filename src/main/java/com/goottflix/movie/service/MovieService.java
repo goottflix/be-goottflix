@@ -113,4 +113,12 @@ public class MovieService {
     public void delete(Long id){
         movieMapper.delete(id);
     }
+    public List<Movie> getMoviesWithPage(int page, int size) {
+        int offset = (page - 1) * size;
+        return movieMapper.getMoviesWithPage(size, offset);
+    }
+
+    public int getTotalMovieCount() {
+        return movieMapper.getTotalMovieCount();
+    }
 }

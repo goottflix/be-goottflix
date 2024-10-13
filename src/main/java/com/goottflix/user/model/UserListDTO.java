@@ -18,4 +18,5 @@ public class UserListDTO {
     private String role;
     private boolean isActive;
     private String subscribe;
+    private String profileImage;
 }

@@ -22,6 +22,7 @@ public class User {
     private boolean isActive;
     private String preference;
     private String subscribe;
+    private String profileImage;
 
     public enum Gender {
         M, F

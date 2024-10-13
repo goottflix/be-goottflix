@@ -1,8 +1,11 @@
 package com.goottflix.user.jwt;
 
+import com.goottflix.user.model.repository.UserMapper;
 import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,8 @@ public class JWTUtil {
     private static final Logger logger = LoggerFactory.getLogger(JWTUtil.class);
 
     private SecretKey secretKey;
+    @Autowired
+    private UserMapper userMapper;
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
@@ -72,13 +77,14 @@ public class JWTUtil {
 
         Date now = new Date(System.currentTimeMillis());
         Date expired = new Date(System.currentTimeMillis() + expiredMs);
+        String nickName = userMapper.getUserName(userID);
 
         logger.info("JWT 발급 시간 :  {} " + now);
         logger.info("JWT 만료 시간 : {} , " + expired);
 
         return Jwts.builder()
                 .claim("userId", userID)
-                .claim("username", username)
+                .claim("username", nickName)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
