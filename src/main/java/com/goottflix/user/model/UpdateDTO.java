@@ -11,4 +11,5 @@ public class UpdateDTO {
     private String email;
     private Date birth;
     private User.Gender gender;
+    private String profileImage;
 }

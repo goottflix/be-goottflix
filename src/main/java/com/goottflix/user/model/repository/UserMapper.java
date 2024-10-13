@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
+    String findImageById(Long id);
+
     boolean existsByLoginId(String loginId);
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
