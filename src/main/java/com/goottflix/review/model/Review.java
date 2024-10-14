@@ -7,7 +7,8 @@ public class Review {
     private Long id;
     private Long movieId;
     private Long userId;
-    private int rating;
+    private Long rating;
     private String review;
-    private int recommend;
+    private Long recommend;
+    private Long spoiler;
 }

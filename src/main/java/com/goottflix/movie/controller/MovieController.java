@@ -76,7 +76,7 @@ public class MovieController {
     @PostMapping("/movie/review")
     public String reviewPost(@RequestParam("movieId") Long movieId,
                              @RequestParam("userId") Long userId,
-                             @RequestParam("rating") int rating,
+                             @RequestParam("rating") Long rating,
                              @RequestParam(name = "review",required = false) String review){
 
         Review review1 = new Review();
@@ -98,7 +98,7 @@ public class MovieController {
 
     @PostMapping("/movie/recommendUp")
     public String recommendUp(@RequestParam("reviewId") Long reviewId,@RequestParam("movieId") Long movieId){
-        reviewService.recommendUp(reviewId);
+        //reviewService.recommendUp(reviewId);
         return "redirect:/movie/view?id="+movieId;
     }
 }
