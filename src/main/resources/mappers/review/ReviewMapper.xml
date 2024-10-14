@@ -22,4 +22,28 @@
         update review set rating=#{rating}, review=#{review}, recommend=#{recommend} where id=#{id}
     </update>
 
+    <delete id="delete">
+        delete from review where id=#{id}
+    </delete>
+
+    <insert id="likesSave" parameterType="map">
+        insert into likes(review_id, user_id) values (#{reviewId}, #{userId})
+    </insert>
+
+    <select id="findByReviewIdAndUserId" parameterType="map" resultType="Likes">
+        select * from likes where review_id=#{reviewId} and user_id=#{userId}
+    </select>
+
+    <delete id="likesDelete" parameterType="map">
+        delete from likes where review_id=#{reviewId} and user_id=#{userId}
+    </delete>
+
+    <update id="declaration">
+        update review set spoiler=#{spoiler} where id=#{id}
+    </update>
+
+    <select id="findBySpoiler" resultType="Review">
+        select * from review where spoiler > 0 order by asc
+    </select>
+
 </mapper>
