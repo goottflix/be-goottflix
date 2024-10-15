@@ -37,6 +37,18 @@ public class MovieService {
         }
     }
 
+    public void modify (Movie movie, MultipartFile file) throws IOException {
+        if (movie.getId() == null) {
+            throw new IllegalArgumentException("영화 ID가 필요합니다.");
+        }
+        if(!file.isEmpty()){
+            deleteExistingFile(movie);
+            movie.setPosterUrl(handleFileUpload(file));
+        }
+        System.out.println("modify 서비스입니다 movie.getIntro() = " + movie.getIntro());
+        movieMapper.update(movie);
+    }
+
     public void updateRating(float avg, Long movieId){
         Movie movie1 = movieMapper.findById(movieId);
         movie1.setRating(avg);
@@ -120,5 +132,9 @@ public class MovieService {
 
     public int getTotalMovieCount() {
         return movieMapper.getTotalMovieCount();
+    }
+
+    public List<Movie> getFilteredMovies(String genre, String nation, String director, String sortBy) {
+        return movieMapper.getFilteredMovies(genre, nation, director, sortBy);
     }
 }

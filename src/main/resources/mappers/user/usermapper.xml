@@ -25,9 +25,32 @@
     </insert>
 
     <select id="findByUserId" resultType="UserListDTO" parameterType="Long">
-        SELECT id, username, email, birth, gender, created_at, last_login, role, is_active, subscribe, profile_image
-        FROM user WHERE id = #{userId}
+        SELECT u.id, u.username, u.email, u.birth, u.gender, u.created_at,
+               u.last_login,u.`role`, u.subscribe, u.profile_image,s.subscribe_end expiration,
+               (SELECT COUNT(*) FROM review r WHERE r.user_id = u.id) watched,
+               (SELECT COUNT(*) FROM review r WHERE r.user_id = u.id AND r.review IS NOT NULL) comment,
+               (SELECT COUNT(*) FROM friends f WHERE f.user_id = u.id) friends
+        FROM user u
+        LEFT JOIN subscribe s ON s.user_id = u.id
+        WHERE u.id = #{userId}
     </select>
+    <select id="getRatingByUserId" resultType="RatingDTO" parameterType="Long">
+        SELECT
+            ur.rating AS rating, ur.user_rating_count, ar.all_rating_count
+        FROM
+            (SELECT rating, COUNT(*) AS user_rating_count
+             FROM review
+             WHERE user_id = #{userId}
+             GROUP BY rating) AS ur
+                RIGHT JOIN
+            (SELECT rating, COUNT(*) AS all_rating_count
+             FROM review
+             GROUP BY rating) AS ar
+            ON ur.rating = ar.rating
+        ORDER BY ar.rating;
+    </select>
+
+
     <select id="findUserByUserId" resultType="User" parameterType="Long">
     SELECT * FROM user where id = #{userId}
     </select>
@@ -100,5 +123,10 @@
     <select id="getUserName" resultType="String">
         SELECT username FROM user WHERE id = #{userId}
     </select>
+
+    <delete id="withdrawUser" parameterType="Long">
+        delete from user where id = #{userId}
+    </delete>
+
 
 </mapper>

@@ -1,9 +1,6 @@
 package com.goottflix.user.model.repository;
 
-import com.goottflix.user.model.LoginDTO;
-import com.goottflix.user.model.UpdateDTO;
-import com.goottflix.user.model.User;
-import com.goottflix.user.model.UserListDTO;
+import com.goottflix.user.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -45,7 +42,12 @@ public interface UserMapper {
     //UserService (마이페이지)
     UserListDTO findByUserId(Long userId);
     void updateProfile(UpdateDTO user);
+    //평점 통계
+    List<RatingDTO> getRatingByUserId(Long userId);
     //아이디 비번찾기
     LoginDTO findByEmail(String email);
     void setUserNewPassword(LoginDTO loginDTO);
+
+    //회원탈퇴
+    void withdrawUser(Long userId);
 }

@@ -22,4 +22,7 @@ public class VericiationService {
     public void removeVerificationCode(String email) {
         verificationCodes.remove(email);
     }
+    public void saveVerficationCodeWithDraw(String username, String code) {
+        verificationCodes.put(username, code);
+    }
 }
