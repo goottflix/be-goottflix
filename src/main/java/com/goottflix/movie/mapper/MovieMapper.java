@@ -24,4 +24,8 @@ public interface MovieMapper {
     //영화 페이징
     List<Movie> getMoviesWithPage(@Param("size") int size, @Param("offset") int offset);
     int getTotalMovieCount();
+
+    //영화 필터링
+    List<Movie> getFilteredMovies(@Param("genre") String genre, @Param("nation") String nation,
+                                  @Param("director") String director, @Param("sortBy") String sortBy);
 }

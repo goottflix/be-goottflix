@@ -3,7 +3,7 @@
 <mapper namespace="com.goottflix.notify.entity.repository.NotifyMapper">
 
 <!--알림 저장하는 sql문-->
-    <insert id="insertNotify" parameterType="NotifyEntity">
+    <insert id="insertNotify" parameterType="NotifyEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO notifys (content, url, is_read, notify_type, user_id, movie_id)
         VALUES (#{content}, #{url}, #{isRead}, #{notifyType}, #{userId}, #{movieId});
     </insert>

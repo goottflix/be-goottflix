@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -76,6 +77,11 @@ public class UserService {
 
     public String getUserSubscribe(Long userId){
         return userMapper.getUserSubscribe(userId);
+    }
+
+    public String requestVerifyCode(){
+        String verificationCode = String.format("%06d", new Random().nextInt(1000000));
+        return verificationCode;
     }
 
 

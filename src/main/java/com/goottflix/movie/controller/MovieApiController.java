@@ -125,11 +125,32 @@ public class MovieApiController {
         }
     }
 
+    @GetMapping("/movie/{movieId}")
+    public Movie getMovie(@PathVariable("movieId") Long movieId) {
+        return movieService.getMovieById(movieId);
+    }
+
+
     @PostMapping("/movie/write")
     public ResponseEntity<?> writePost(Movie movie, @RequestParam("file") MultipartFile file) throws IOException {
         movieService.save(movie, file);
-
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/movie/modify")
+    public ResponseEntity<?> modifyPost(Movie movie, @RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println("movie.getId() = " + movie.getId());
+        System.out.println("movie.getIntro() = " + movie.getIntro());
+        movieService.modify(movie,file);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/movie/delete/{movieId}")
+    public void deleteMovie(@PathVariable("movieId") Long movieId){
+        System.out.println("movieId = " + movieId);
+        try {
+            movieService.delete(movieId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/userSubscribe")
@@ -146,5 +167,14 @@ public class MovieApiController {
     @GetMapping("/spoilerReview")       //스포일러 리뷰들 가져오기
     public List<Review> getSpoilerReview(){
         return reviewService.getReviewBySpoiler();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> getFilteredMovies(@RequestParam(required = false) String genre,
+                                                        @RequestParam(required = false) String nation,
+                                                        @RequestParam(required = false) String director,
+                                                        @RequestParam(required = false) String sortBy) {
+        List<Movie> movies = movieService.getFilteredMovies(genre, nation, director, sortBy);
+        return ResponseEntity.ok(movies);
     }
 }
