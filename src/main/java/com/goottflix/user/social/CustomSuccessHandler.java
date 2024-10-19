@@ -48,9 +48,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(createCookie("Authorization", token));
 
         if (user.getUsername().equals("new") || user.getUsername().isEmpty()) {
-            response.sendRedirect("http://localhost:3000/set-username");
+            response.sendRedirect("https://goottflix.online/set-username");
         } else {
-            response.sendRedirect("http://localhost:3000/");
+            response.sendRedirect("https://goottflix.online");
         }
     }
 

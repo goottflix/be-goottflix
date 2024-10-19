@@ -43,7 +43,7 @@ public class MailService {
     }
 
     public void sendPasswordResetEmail(String email, String loginId, String token) throws MessagingException {
-        String resetUrl = "http://localhost:3000/auth/reset?token=" + token;
+        String resetUrl = "http://goottflix.online/auth/reset?token=" + token;
 
         // MimeMessage 사용하여 HTML 이메일 전송
         MimeMessage message = mailSender.createMimeMessage();

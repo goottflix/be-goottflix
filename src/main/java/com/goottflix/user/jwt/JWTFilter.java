@@ -27,7 +27,8 @@ public class JWTFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
-        if(requestURI.equals("/api/join") || requestURI.equals("/api/login")) {
+        if(requestURI.equals("/api/join") || requestURI.equals("/api/login") ||
+                requestURI.equals("/auth/sendCode") || requestURI.equals("/auth/verifyCode")) {
             filterChain.doFilter(request, response);
             return;
         }

@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "true")
+//@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "true")
 @RequestMapping("/api")
 public class MovieApiController {
 
