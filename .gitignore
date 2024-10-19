@@ -46,10 +46,3 @@ node_modules/
 .env
 /target/
 
-### 배포용 ###
-application.properties
-CorsMvcConfig.java
-CustomSuccessHandler.java
-MailService.java
-SecurityConfig.java
-WebSocketConfig.java
