@@ -45,3 +45,11 @@ node_modules/
 ### 환경변수 및 빌드파일 ###
 .env
 /target/
+
+### 배포용 ###
+application.properties
+CorsMvcConfig.java
+CustomSuccessHandler.java
+MailService.java
+SecurityConfig.java
+WebSocketConfig.java
