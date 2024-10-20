@@ -18,9 +18,6 @@ public class ChatMessageService {
         return chatMessageMapper.getMessagesByRoomId(roomId);
     }
 
-    public Long insertChatMessage(ChatMessage chatMessage) {
-        return chatMessageMapper.insertChatMessage(chatMessage);
-    }
 
     public void insertChatMessages(ChatMessage messages) {
         chatMessageMapper.insertChatMessages(messages);
