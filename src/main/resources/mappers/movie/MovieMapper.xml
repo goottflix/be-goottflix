@@ -59,6 +59,38 @@
         </choose>
     </select>
 
+    <select id="getReviewMoviesByUserId" parameterType="Long" resultType="ReviewMovie">
+        SELECT m.id movie_id, m.title, m.release_date, m.rating, m.genre, m.director, m.poster_url, m.nation,
+               r.rating my_rating, r.review_date, u.username
+        FROM review r
+        JOIN movies m ON r.movie_id = m.id
+        JOIN user u ON r.user_id = u.id
+        WHERE r.user_id = #{userId}
+    </select>
+
+    <select id="getCommentMoviesByUserId" parameterType="Long" resultType="CommentMovie">
+        SELECT m.id movie_id, m.title, m.release_date, m.genre, m.poster_url, r.review, r.recommend,
+               r.spoiler, r.rating my_rating, r.review_date, u.username
+        FROM review r
+        JOIN movies m ON r.movie_id = m.id
+        JOIN user u ON r.user_id = u.id
+        WHERE r.user_id = #{userId} and r.review IS NOT NULL;
+    </select>
+
+    <select id="getLikeMoviesWithFriends" parameterType="map" resultType="LikeMovie">
+        SELECT  m.id AS movie_id, m.title, m.release_date,  m.rating,
+                m.genre, m.director, m.poster_url, m.nation,
+                r.rating AS my_rating,
+                rf.rating AS friend_rating
+        FROM review r
+        JOIN movies m ON r.movie_id = m.id
+        JOIN user u ON r.user_id = u.id
+        JOIN review rf ON rf.movie_id = m.id AND rf.user_id = #{friendId}
+        JOIN user uf ON rf.user_id = uf.id
+        WHERE r.user_id = #{userId}
+          AND r.rating >= 4
+          AND rf.rating >= 4;
+    </select>
 
 
 </mapper>

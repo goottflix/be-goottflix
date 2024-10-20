@@ -1,5 +1,6 @@
 package com.goottflix.chat.config;
 
+import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -9,6 +10,9 @@ import org.springframework.web.socket.config.annotation.*;
 @EnableWebSocket
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Value("${REACTENDPOINT}")
+    private String reactEndpointUrl;
 
 
     @Override
@@ -20,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/chat")
-                .setAllowedOriginPatterns("http://localhost:3000")
+                .setAllowedOriginPatterns(reactEndpointUrl)
                 .withSockJS();
     }
 

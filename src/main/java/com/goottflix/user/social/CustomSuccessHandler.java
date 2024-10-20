@@ -9,6 +9,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -24,6 +25,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final JWTUtil jwtUtil;
     private final UserMapper userMapper;
+
+    @Value("${REACTENDPOINT}")
+    private String reactEndpointUrl;
 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse
             response, Authentication authentication) throws IOException, ServletException {
@@ -48,9 +52,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(createCookie("Authorization", token));
 
         if (user.getUsername().equals("new") || user.getUsername().isEmpty()) {
-            response.sendRedirect("http://localhost:3000/set-username");
+            response.sendRedirect(reactEndpointUrl+"/set-username");
         } else {
-            response.sendRedirect("http://localhost:3000/");
+            response.sendRedirect(reactEndpointUrl);
         }
     }
 

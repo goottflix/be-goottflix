@@ -1,6 +1,10 @@
 package com.goottflix.movie.controller;
 
+import com.goottflix.movie.mapper.MovieMapper;
+import com.goottflix.movie.model.CommentMovie;
+import com.goottflix.movie.model.LikeMovie;
 import com.goottflix.movie.model.Movie;
+import com.goottflix.movie.model.ReviewMovie;
 import com.goottflix.movie.service.MovieService;
 import com.goottflix.review.dto.ReviewAndNickname;
 import com.goottflix.review.model.Review;
@@ -22,7 +26,6 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "true")
 @RequestMapping("/api")
 public class MovieApiController {
 
@@ -32,6 +35,7 @@ public class MovieApiController {
     private final JWTUtil jWTUtil;
     private final AdminService adminService;
     private final UserService userService;
+    private final MovieMapper movieMapper;
 
     @GetMapping("/list")
     public List<Movie> getMovies() {
@@ -48,6 +52,29 @@ public class MovieApiController {
 
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/my/reviewMovies")
+    public List<ReviewMovie> getReviewMovies(@CookieValue("Authorization")String token) {
+        Long userId = jWTUtil.getUserID(token);
+        return movieMapper.getReviewMoviesByUserId(userId);
+    }
+    @GetMapping("/my/commentMovies")
+    public List<CommentMovie> getCommentMovies(@CookieValue("Authorization")String token) {
+        Long userId = jWTUtil.getUserID(token);
+        return movieMapper.getCommentMoviesByUserId(userId);
+    }
+    @GetMapping("/friend/review/{friendId}")
+    public List<ReviewMovie> getFriendReviewMovies(@CookieValue("Authorization") String token,
+                                                   @PathVariable("friendId") Long friendId) {
+        Long userId = jWTUtil.getUserID(token);
+        return movieMapper.getReviewMoviesByUserId(friendId);
+    }
+    @GetMapping("/friend/comment/{friendId}")
+    public List<CommentMovie> getFriendCommentMovies(@CookieValue("Authorization") String token,
+                                                     @PathVariable("friendId") Long friendId) {
+        Long userId = jWTUtil.getUserID(token);
+        return movieMapper.getCommentMoviesByUserId(friendId);
+    }
+
 
     @GetMapping("/review")
     public List<ReviewAndNickname> getReview(@RequestParam("movieId") Long movieId, @CookieValue("Authorization") String token) {

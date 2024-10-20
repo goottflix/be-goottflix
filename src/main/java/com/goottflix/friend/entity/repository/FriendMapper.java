@@ -2,6 +2,7 @@ package com.goottflix.friend.entity.repository;
 
 
 import com.goottflix.friend.entity.FriendNotifyDTO;
+import com.goottflix.friend.entity.MyPageFriends;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +24,6 @@ public interface FriendMapper {
     void deleteFriend(@Param("userId") Long userId, @Param("friendId") Long friendId);
 
     Long findById(Long id);
+
+    List<MyPageFriends> friendListMyPage(Long userId);
 }

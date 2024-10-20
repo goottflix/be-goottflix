@@ -36,7 +36,7 @@ public class NotifyService {
         for (Long id : userIds) {
             NotifyEntity notify = new NotifyEntity();
             notify.setContent("주목할만한 영화 "+movie.getTitle()+"가 업데이트 되었습니다");
-            notify.setUrl("/movie" + movieId); // 이 부분은 프론트에서 url 지정하는거에 따라 변화할거임
+            notify.setUrl("/description");
             notify.setIsRead(false);
             notify.setNotifyType(NotifyEntity.NotifyType.movieUpdate);
             notify.setUserId(id);
