@@ -25,4 +25,5 @@ public class UserListDTO {
     private int comment;
     private int friends;
     private LocalDateTime expiration;
+    private String likedGenre;
 }

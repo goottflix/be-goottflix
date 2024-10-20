@@ -64,7 +64,8 @@ CREATE TABLE  review  (
                           rating 	int	NULL,
                           review 	varchar(255)	NULL,
                           recommend 	int	NULL	DEFAULT 0,
-                          spoiler int default 0
+                          spoiler int default 0,
+                          review_date timestamp null default now()
 );
 
 DROP TABLE IF EXISTS subscribe;
@@ -101,25 +102,25 @@ CREATE TABLE Friends(
 
 DROP TABLE IF EXISTS chat_room;
 CREATE TABLE chat_room (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
+id INT AUTO_INCREMENT PRIMARY KEY,
  name VARCHAR(255) NOT NULL
 );
 
 
 DROP TABLE IF EXISTS chat_message;
 CREATE TABLE chat_message (
-id BIGINT AUTO_INCREMENT PRIMARY KEY,
-room_id BIGINT NOT NULL,
+id INT AUTO_INCREMENT PRIMARY KEY,
+room_id INT NOT NULL,
 sender VARCHAR(255) NOT NULL,
  message TEXT NOT NULL,
- timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
- FOREIGN KEY (room_id) REFERENCES chat_room(id)
+ timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+#  FOREIGN KEY (room_id) REFERENCES chat_room(id)
 );
 
 DROP TABLE IF EXISTS likes;
 CREATE TABLE likes (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    review_id BIGINT NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    review_id INT NOT NULL
 );
 

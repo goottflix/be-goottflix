@@ -3,6 +3,7 @@ package com.goottflix.user.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,8 +43,11 @@ public class MailService {
         return verificationCode;
     }
 
+    @Value("${REACTENDPOINT}")
+    private String reactEndpointUrl;
+
     public void sendPasswordResetEmail(String email, String loginId, String token) throws MessagingException {
-        String resetUrl = "http://localhost:3000/auth/reset?token=" + token;
+        String resetUrl = reactEndpointUrl+"/auth/reset?token=" + token;
 
         // MimeMessage 사용하여 HTML 이메일 전송
         MimeMessage message = mailSender.createMimeMessage();

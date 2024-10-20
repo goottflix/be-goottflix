@@ -7,6 +7,7 @@ import com.goottflix.user.service.CustomOAuth2UserService;
 import com.goottflix.user.social.CustomSuccessHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,9 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final CustomOAuth2UserService customOAuth2UserService;
 
+    @Value("${REACTENDPOINT}")
+    private String reactEndpointUrl;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -52,7 +56,7 @@ public class SecurityConfig {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedOrigins(Collections.singletonList(reactEndpointUrl));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -83,7 +87,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/book/**").permitAll() // 아두이노 요청
                         .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
-                        .requestMatchers("/api/login","/api/list/page","/files/**").permitAll() // 로그인페이지,메인페이지(영화목록), 파일업로드
+                        .requestMatchers("/api/login","/api/join","/api/list/page","/files/**").permitAll() // 로그인페이지,메인페이지(영화목록), 파일업로드
                         .requestMatchers("api/movie/write", "api/movie/modify", "api/movie/delete/**").hasRole("ADMIN")  // 'ROLE_ADMIN' 권한을 가진 사용자만 접근 가능
                         .anyRequest().authenticated());
         http

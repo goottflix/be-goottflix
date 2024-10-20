@@ -29,7 +29,11 @@
                u.last_login,u.`role`, u.subscribe, u.profile_image,s.subscribe_end expiration,
                (SELECT COUNT(*) FROM review r WHERE r.user_id = u.id) watched,
                (SELECT COUNT(*) FROM review r WHERE r.user_id = u.id AND r.review IS NOT NULL) comment,
-               (SELECT COUNT(*) FROM friends f WHERE f.user_id = u.id) friends
+               (SELECT COUNT(*) FROM friends f WHERE f.user_id = u.id) friends,
+               (SELECT m.genre FROM review r
+                   JOIN movies m ON r.movie_id = m.id
+                WHERE r.user_id = u.id  GROUP BY m.genre
+                ORDER BY COUNT(m.genre) DESC LIMIT 1) AS liked_genre
         FROM user u
         LEFT JOIN subscribe s ON s.user_id = u.id
         WHERE u.id = #{userId}

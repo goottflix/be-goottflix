@@ -2,6 +2,7 @@ package com.goottflix.friend.controller;
 
 
 
+import com.goottflix.friend.entity.MyPageFriends;
 import com.goottflix.friend.entity.repository.FriendMapper;
 import com.goottflix.friend.service.FriendService;
 import com.goottflix.friend.entity.FriendNotifyDTO;
@@ -18,7 +19,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/friend")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class FriendController {
 
     private final FriendService friendService;
@@ -62,4 +62,20 @@ public class FriendController {
         List<FriendNotifyDTO> friendList = friendService.friendList(jwtUtil.getUserID(token));
         return ResponseEntity.ok(friendList);
     }
+
+    @GetMapping("/my/list")
+    public List<MyPageFriends> friendListMyPage(@CookieValue("Authorization")String token) {
+        Long userId = jwtUtil.getUserID(token);
+        return friendMapper.friendListMyPage(userId);
+    }
+
+    @GetMapping("/list/{friendId}")
+    public List<MyPageFriends> friendListForFriend(@CookieValue("Authorization") String token,
+                                                   @PathVariable("friendId") Long friendId) {
+        Long userId = jwtUtil.getUserID(token);
+        return friendMapper.friendListMyPage(friendId);
+    }
+
+
+
 }

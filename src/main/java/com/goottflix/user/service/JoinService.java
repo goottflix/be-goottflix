@@ -36,7 +36,7 @@ public class JoinService {
         data.setLoginId(loginId);
         data.setUsername(username);
         data.setPasswordHash(bCryptPasswordEncoder.encode(password));
-        data.setRole("ROLE_ADMIN");
+        data.setRole("ROLE_USER");
         data.setEmail(email);
         data.setBirth(birth);
         data.setGender(gender);
