@@ -6,9 +6,9 @@
         SELECT * FROM chat_message WHERE room_id = #{roomId} ORDER BY timestamp ASC
     </select>
 
-    <insert id="insertChatMessage" parameterType="ChatMessage" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO chat_message (room_id, sender, message)
-        VALUES (#{roomId}, #{sender}, #{message})
+    <insert id="insertChatMessages" parameterType="ChatMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO chat_message (room_id, sender, message, type, timestamp)
+        VALUES (#{roomId}, #{sender}, #{message}, #{type}, NOW())
     </insert>
 
 

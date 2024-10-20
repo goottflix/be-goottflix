@@ -13,5 +13,6 @@ public class ChatMessage {
     private String sender;
     private String message;
     private LocalDateTime timestamp;
+    private String type;
 
 }
