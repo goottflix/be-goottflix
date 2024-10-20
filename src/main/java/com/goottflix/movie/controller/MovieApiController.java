@@ -9,9 +9,6 @@ import com.goottflix.subscribe.service.SubscribeService;
 import com.goottflix.user.jwt.JWTUtil;
 import com.goottflix.user.service.AdminService;
 import com.goottflix.user.service.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,15 +37,27 @@ public class MovieApiController {
     public List<Movie> getMovies() {
         return movieService.getAllMovies();
     }
+    @GetMapping("/list/page")
+    public ResponseEntity<Map<String, Object>> getMoviesPage(@RequestParam int page, @RequestParam int size) {
+        List<Movie> movies = movieService.getMoviesWithPage(page, size);
+        int totalMovies = movieService.getTotalMovieCount();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("movies", movies);
+        response.put("totalMovies", totalMovies);
+
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/review")
-    public List<ReviewAndNickname> getReview(@RequestParam("movieId") Long movieId) {
+    public List<ReviewAndNickname> getReview(@RequestParam("movieId") Long movieId, @CookieValue("Authorization") String token) {
         List<Review> reviews = reviewService.getReviewByMovieId(movieId);
         List<ReviewAndNickname> reviewAndNicknames = new ArrayList<>();
 
         for(Review review : reviews) {
             String nickname = userService.findUsernameByuserId(review.getUserId());
-            reviewAndNicknames.add(new ReviewAndNickname(review, nickname));
+            boolean likes = reviewService.isLiked(review.getId(), jWTUtil.getUserID(token));
+            reviewAndNicknames.add(new ReviewAndNickname(review, nickname, likes));
         }
 
         return reviewAndNicknames;
@@ -55,7 +66,7 @@ public class MovieApiController {
     @PostMapping("/review")
     public void addReview(@CookieValue("Authorization") String token,
                           @RequestParam("movieId") Long movieId,
-                          @RequestParam("rating") int rating,
+                          @RequestParam("rating") Long rating,
                           @RequestParam(name="review", required=false) String review){
         Review review1 = new Review();
 
@@ -74,6 +85,22 @@ public class MovieApiController {
         }
     }
 
+    @PostMapping("reviewUpdate")        //리뷰 수정
+    public void updateReview(@RequestParam("reviewId") Long reviewId, @RequestParam("review") String review, @RequestParam("rating") Long rating){
+        Review review1 = new Review();
+        review1.setId(reviewId);
+        review1.setRating(rating);
+        if(review!=null){
+            review1.setReview(review);
+        }
+        reviewService.save(review1);
+    }
+
+    @PostMapping("/reviewDelete")       //리뷰 삭제
+    public void deleteReview(@RequestParam("reviewId") Long reviewId){
+        reviewService.delete(reviewId);
+    }
+
     @GetMapping("/recommendedList")
     public List<Movie> getRecommendedMovies(@CookieValue("Authorization") String token) {
         Long userId = jWTUtil.getUserID(token);
@@ -85,8 +112,8 @@ public class MovieApiController {
     }
 
     @PostMapping("/recommendUp")
-    public void recommendUp(@RequestParam("userId") Long userId){
-        reviewService.recommendUp(userId);
+    public void recommendUp(@RequestParam("reviewId") Long reviewId, @CookieValue("Authorization") String token){
+        reviewService.recommendUp(reviewId, jWTUtil.getUserID(token));
     }
 
     @PostMapping("/subscribe")
@@ -98,16 +125,56 @@ public class MovieApiController {
         }
     }
 
+    @GetMapping("/movie/{movieId}")
+    public Movie getMovie(@PathVariable("movieId") Long movieId) {
+        return movieService.getMovieById(movieId);
+    }
+
+
     @PostMapping("/movie/write")
     public ResponseEntity<?> writePost(Movie movie, @RequestParam("file") MultipartFile file) throws IOException {
         movieService.save(movie, file);
-
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/movie/modify")
+    public ResponseEntity<?> modifyPost(Movie movie, @RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println("movie.getId() = " + movie.getId());
+        System.out.println("movie.getIntro() = " + movie.getIntro());
+        movieService.modify(movie,file);
+        return ResponseEntity.ok().build();
+    }
+    @DeleteMapping("/movie/delete/{movieId}")
+    public void deleteMovie(@PathVariable("movieId") Long movieId){
+        System.out.println("movieId = " + movieId);
+        try {
+            movieService.delete(movieId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/userSubscribe")
     public boolean userSubscribe(@CookieValue("Authorization") String token){
         boolean isSubscribe = userService.getUserSubscribe(jWTUtil.getUserID(token)).equals("subscribe");
         return isSubscribe;
+    }
+
+    @PostMapping("/declaration")
+    public void declaration(@RequestParam("reviewId") Long reviewId){
+        reviewService.declaration(reviewId);
+    }
+
+    @GetMapping("/spoilerReview")       //스포일러 리뷰들 가져오기
+    public List<Review> getSpoilerReview(){
+        return reviewService.getReviewBySpoiler();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> getFilteredMovies(@RequestParam(required = false) String genre,
+                                                        @RequestParam(required = false) String nation,
+                                                        @RequestParam(required = false) String director,
+                                                        @RequestParam(required = false) String sortBy) {
+        List<Movie> movies = movieService.getFilteredMovies(genre, nation, director, sortBy);
+        return ResponseEntity.ok(movies);
     }
 }

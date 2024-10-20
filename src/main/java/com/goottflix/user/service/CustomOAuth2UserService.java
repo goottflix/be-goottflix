@@ -50,13 +50,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             User user = new User();
             user.setOauthId(oauthId);
             user.setEmail(oAuth2Response.getEmail());
-            user.setUsername(oAuth2Response.getProvider()+oAuth2Response.getName()+randomCode);
+            user.setUsername("new");
+//            user.setUsername(oAuth2Response.getProvider()+oAuth2Response.getName()+randomCode);
             user.setRole("ROLE_USER");
             userMapper.joinIn(user);
 
             UserDTO userDTO = new UserDTO();
             userDTO.setOauthId(oauthId);
-            userDTO.setUsername(oAuth2Response.getName());
+//            userDTO.setUsername(oAuth2Response.getName());
+            userDTO.setUsername("new");
             userDTO.setRole("ROLE_USER");
             userDTO.setUserId(user.getId());
 

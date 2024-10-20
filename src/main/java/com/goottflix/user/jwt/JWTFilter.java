@@ -32,9 +32,6 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        //request에서 Authorization 헤더를 찾기
-//        String authorization = request.getHeader("Authorization");
-        //cookie들을 불러온 뒤 Authorization Key에 담긴 쿠키를 찾음
         String authorization = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -49,20 +46,15 @@ public class JWTFilter extends OncePerRequestFilter {
 
 
         if (authorization == null) {
-//            if (authorization == null || !authorization.startsWith("Bearer ")) {
             System.out.println("토큰이 없는데욤??");
             filterChain.doFilter(request, response);
-                //조건이 해당되면 메소드 종료
             return;
         }
-        //Bearer 부분 제거 후 순수 토큰만 획득
-//        String token = authorization.split(" ")[1];
         String token = authorization;
         //토큰 소멸 시간 검증
         if(jwtUtil.isExpired(token)) {
             System.out.println("토큰 유효기간이 만료됐슴당 ^ㅆ^");
             filterChain.doFilter(request, response);
-            //조건이 해당되면 메소드 종료
             return;
         }
 

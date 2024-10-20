@@ -2,6 +2,8 @@ package com.goottflix.user.controller;
 
 import com.goottflix.user.jwt.JWTUtil;
 import com.goottflix.user.model.LoginDTO;
+import com.goottflix.user.model.User;
+import com.goottflix.user.model.repository.UserMapper;
 import com.goottflix.user.service.LoginService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ public class LoginController {
 
     private final LoginService loginService;
     private final JWTUtil jWTUtil;
+    private final UserMapper userMapper;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
@@ -97,4 +100,29 @@ public class LoginController {
         cookie.setMaxAge(0); // 쿠키 삭제를 위해 수명을 0으로 설정
         return cookie;
     }
+
+    @PostMapping("/user/set-username")
+    public ResponseEntity<String> setUsername(@RequestParam String username, @CookieValue("Authorization") String token) {
+
+        Long userId = jWTUtil.getUserID(token);
+
+        // DB에서 사용자 정보 가져오기
+        User user = userMapper.findUserByUserId(userId);
+
+        if (user == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        // username이 비어 있거나 유효하지 않으면 에러 반환
+        if (username == null || username.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Username cannot be empty");
+        }
+
+        // username 업데이트
+        user.setUsername(username);
+        userMapper.updateUser(user);
+
+        return ResponseEntity.ok("Username updated successfully, redirecting to login");
+    }
+
 }

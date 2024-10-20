@@ -16,7 +16,7 @@ public class MailConfig {
 
     @Bean
     JavaMailSender javaMailSender() {
-        System.out.println("mailPassword = " + mailPassword);
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);

@@ -44,11 +44,8 @@ public class BookController {
     public ResponseEntity<String> receiveNfcData(@RequestBody NfcRequest nfcRequest) {
         String uid = nfcRequest.getUid();
         System.out.println("Received NFC UID: " + uid);
-
-        // 서비스로 NFC 데이터 전송
+        sink.tryEmitNext(uid);
         nfcService.sendNfcData(uid);
-
-        // 처리 후 성공 응답 반환
         return ResponseEntity.ok("NFC data processed successfully.");
     }
 
@@ -90,7 +87,6 @@ public class BookController {
                 return ResponseEntity.ok("카드에 로그인정보를 저장했습니다.");
             }
         }
-
         return ResponseEntity.badRequest().body("사용할 수 없는 카드입니다.");
     }
 }

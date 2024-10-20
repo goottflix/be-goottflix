@@ -14,18 +14,51 @@
     </select>
 
     <insert id="save">
-        insert into movies(title, intro, description, release_date, rating, genre, director, poster_url)
-        values(#{title},#{intro}, #{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl})
+        insert into movies(title, intro, description, release_date, rating, genre, director, poster_url, nation, video_url)
+        values(#{title},#{intro}, #{description}, #{releaseDate}, #{rating}, #{genre}, #{director}, #{posterUrl}, #{nation}, #{videoUrl})
     </insert>
 
     <update id="update">
-        update movies set title=#{title}, description=#{description}, release_date=#{releaseDate},
-                          rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl}
+        update movies set title=#{title}, description=#{description}, release_date=#{releaseDate}, intro = #{intro},
+                          rating=#{rating}, genre=#{genre}, director=#{director}, poster_url=#{posterUrl}, video_url=#{videoUrl}, nation = #{nation}
                       where id=#{id}
     </update>
 
     <delete id="delete">
         delete from movies where id=#{id}
     </delete>
+
+    <select id="getMoviesWithPage" resultType="Movie">
+        SELECT * FROM movies
+        ORDER BY id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getTotalMovieCount" resultType="int">
+        SELECT COUNT(*) FROM movies
+    </select>
+
+    <select id="getFilteredMovies" resultType="Movie">
+        SELECT * FROM movies
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="genre != null and genre != ''">
+                genre LIKE CONCAT('%', #{genre}, '%')
+            </if>
+            <if test="nation != null and nation != ''">
+                AND nation LIKE CONCAT('%', #{nation}, '%')
+            </if>
+            <if test="director != null and director != ''">
+                AND director LIKE CONCAT('%', #{director}, '%')
+            </if>
+        </trim>
+        ORDER BY
+        <choose>
+            <when test="sortBy == 'rating'"> rating DESC </when>
+            <when test="sortBy == 'title'"> title ASC </when>
+            <when test="sortBy == 'release_date'"> release_date DESC </when>
+        </choose>
+    </select>
+
+
 
 </mapper>

@@ -1,11 +1,18 @@
 package com.goottflix.user.service;
 
 import com.goottflix.user.model.UpdateDTO;
-import com.goottflix.user.model.User;
-import com.goottflix.user.model.UserListDTO;
 import com.goottflix.user.model.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -13,16 +20,54 @@ public class UserService {
 
     private final UserMapper userMapper;
 
-    public void updateProfile(UpdateDTO user) {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-        if(user!=null){
+    @Transactional
+    public void updateProfile(UpdateDTO user, MultipartFile file) throws IOException {
+
+        if (user != null) {
+
+            String existImage = userMapper.findImageById(user.getId());
+
+            if (!file.isEmpty()) {
+                String newImageUrl = handleFileUpload(file);
+                user.setProfileImage(newImageUrl);
+                if (existImage != null) {
+                    deleteExistingFile(existImage);
+                }
+            }
+
             user.setId(user.getId());
             user.setUsername(user.getUsername());
             user.setBirth(user.getBirth());
             user.setGender(user.getGender());
-            userMapper.updateProfile(user);
+
+            try {
+                userMapper.updateProfile(user);
+                logger.info("Updated profile: {}", user);
+
+            } catch (Exception e) {
+                logger.error("Error updating profile", e);
+            }
+
         } else {
-            new IllegalArgumentException("user is null");
+            throw new IllegalArgumentException("User is null");
+        }
+    }
+
+    private String handleFileUpload(MultipartFile file) throws IOException {
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid + "_" + file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+        return "/files/"+fileName;
+    }
+
+    private void deleteExistingFile(String imageUrl) {
+        File file = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\static" + imageUrl);
+        if (file.exists()) {
+            file.delete();
         }
     }
 
@@ -33,4 +78,11 @@ public class UserService {
     public String getUserSubscribe(Long userId){
         return userMapper.getUserSubscribe(userId);
     }
+
+    public String requestVerifyCode(){
+        String verificationCode = String.format("%06d", new Random().nextInt(1000000));
+        return verificationCode;
+    }
+
+
 }

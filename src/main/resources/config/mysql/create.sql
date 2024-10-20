@@ -2,20 +2,21 @@ use goottflix;
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE  user  (
-                         id 	int auto_increment primary key	NOT NULL,
-                         username 	varchar(50)	NULL,
-                         email 	varchar(100)	NULL,
-                         loginId 	varchar(100)	NULL,
-                         password_hash 	varchar(255)	NULL,
-                         oauthId 	varchar(255)	NULL,
-                         birth 	date	NULL,
-                         gender 	ENUM('M','F')	NULL,
-                         created_at 	timestamp	NULL	DEFAULT now()	COMMENT 'timestamp는 시간 초까지',
-                         last_login 	timestamp	NULL	DEFAULT now(),
-                         role 	varchar(50)	NULL	DEFAULT 'ROLE_USER',
-                         is_active 	boolean	NULL,
-                         preferences 	json	NULL,
-                         subscribe 	varchar(50)	NULL	DEFAULT 'free'	COMMENT 'free,sub,expired'
+                        id 	int auto_increment primary key	NOT NULL,
+                        username 	varchar(50)	NULL,
+                        email 	varchar(100)	NULL,
+                        loginId 	varchar(100)	NULL,
+                        password_hash 	varchar(255)	NULL,
+                        oauthId 	varchar(255)	NULL,
+                        birth 	date	NULL,
+                        gender 	ENUM('M','F')	NULL,
+                        created_at 	timestamp	NULL	DEFAULT now()	COMMENT 'timestamp는 시간 초까지',
+                        last_login 	timestamp	NULL	DEFAULT now(),
+                        role 	varchar(50)	NULL	DEFAULT 'ROLE_USER',
+                        is_active 	boolean	NULL,
+                        preferences 	json	NULL,
+                        subscribe 	varchar(50)	NULL	DEFAULT 'free'	COMMENT 'free,sub,expired',
+                        profile_image varchar(255)
 );
 
 DROP TABLE IF EXISTS movies;
@@ -29,7 +30,8 @@ CREATE TABLE  movies  (
                           genre 	varchar(50)	NULL	COMMENT '액션,코미디,드라마 등등',
                           director 	varchar(50)	NULL,
                           poster_url 	varchar(255)	NULL,
-                          video_url varchar(255) NULL
+                          video_url varchar(255) NULL,
+                          nation varchar(100) default '한국' NULL
 );
 
 DROP TABLE IF EXISTS notifys;
@@ -50,7 +52,8 @@ CREATE TABLE  cards  (
                          show_time 	timestamp	NULL,
                          room_number 	int	NULL,
                          seat_number 	varchar(20)	NULL,
-                         movie_id 	int	NULL
+                         movie_id 	int	NULL,
+                        entered varchar(50) default 'noshow'
 );
 
 DROP TABLE IF EXISTS review;
@@ -60,7 +63,8 @@ CREATE TABLE  review  (
                           movie_id 	int	NULL,
                           rating 	int	NULL,
                           review 	varchar(255)	NULL,
-                          recommend 	int	NULL	DEFAULT 0
+                          recommend 	int	NULL	DEFAULT 0,
+                          spoiler int default 0
 );
 
 DROP TABLE IF EXISTS subscribe;
@@ -113,4 +117,10 @@ sender VARCHAR(255) NOT NULL,
  FOREIGN KEY (room_id) REFERENCES chat_room(id)
 );
 
+DROP TABLE IF EXISTS likes;
+CREATE TABLE likes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    review_id BIGINT NOT NULL
+);
 

@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class UserListDTO {
@@ -18,4 +20,9 @@ public class UserListDTO {
     private String role;
     private boolean isActive;
     private String subscribe;
+    private String profileImage;
+    private int watched;
+    private int comment;
+    private int friends;
+    private LocalDateTime expiration;
 }
