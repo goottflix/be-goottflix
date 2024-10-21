@@ -88,7 +88,7 @@ public class SecurityConfig {
                         .requestMatchers("/book/**").permitAll() // 아두이노 요청
                         .requestMatchers("/auth/**").permitAll() // 회원가입 시 메일인증요청
                         .requestMatchers("/api/login","/api/join","/api/list/page","/files/**").permitAll() // 로그인페이지,메인페이지(영화목록), 파일업로드
-                        .requestMatchers("api/movie/write", "api/movie/modify", "api/movie/delete/**").hasRole("ADMIN")  // 'ROLE_ADMIN' 권한을 가진 사용자만 접근 가능
+                        .requestMatchers("api/movie/write", "api/movie/modify", "api/movie/delete/**","api/chatroom/getRole").hasRole("ADMIN")  // 'ROLE_ADMIN' 권한을 가진 사용자만 접근 가능
                         .requestMatchers("/api/login","/","/api/**","/files/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .anyRequest().authenticated());
