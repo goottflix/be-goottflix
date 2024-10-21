@@ -38,5 +38,24 @@
         WHERE user_id = #{userId} ANd friend_id = #{friendId}
     </select>
 
+    <select id="friendListMyPage" parameterType="Long" resultType="MyPageFriends">
+        SELECT f.friend_id, f.created_at, u.username, u.profile_image,
+               COALESCE(watched_count.watched, 0) AS watched,
+               COALESCE(comment_count.comment, 0) AS comment
+        FROM  friends f
+                  JOIN  user u ON u.id = f.friend_id
+                  LEFT JOIN
+              (SELECT r.user_id, COUNT(*) AS watched
+               FROM review r
+               GROUP BY r.user_id) AS watched_count
+              ON watched_count.user_id = f.friend_id
+                  LEFT JOIN
+              (SELECT r.user_id, COUNT(*) AS comment
+               FROM  review r  WHERE   r.review IS NOT NULL
+               GROUP BY  r.user_id) AS comment_count
+              ON comment_count.user_id = f.friend_id
+        WHERE f.user_id = #{userId}
+    </select>
+
 
 </mapper>

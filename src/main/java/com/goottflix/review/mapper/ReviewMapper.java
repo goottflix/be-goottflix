@@ -2,6 +2,7 @@ package com.goottflix.review.mapper;
 
 import com.goottflix.review.model.Likes;
 import com.goottflix.review.model.Review;
+import com.goottflix.review.model.ReviewRank;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -29,5 +30,11 @@ public interface ReviewMapper {
     void likesDelete(Map<String, Object> params);
 
     List<Review> findBySpoiler();
+
+    void initializeRank();
+    int countTotalUsers();
+
+    List<ReviewRank> getRankedReviews();
+
 
 }

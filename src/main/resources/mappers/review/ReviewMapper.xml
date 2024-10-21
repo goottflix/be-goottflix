@@ -46,4 +46,21 @@
         select * from review where spoiler > 0 order by asc
     </select>
 
+<!--    상위몇프로 ?~ -->
+    <update id="initializeRank">
+        SET @rank := 0;
+    </update>
+    <select id="countTotalUsers" resultType="int">
+        SELECT COUNT(DISTINCT user_id) FROM review;
+    </select>
+    <select id="getRankedReviews" resultType="ReviewRank">
+        SELECT user_id, (@rank := @rank + 1) AS review_rank,
+               FLOOR((@rank / (SELECT COUNT(DISTINCT user_id) FROM review)) * 100) AS review_percent
+        FROM ( SELECT user_id, COUNT(*) AS review_count
+        FROM review
+        GROUP BY user_id
+        ORDER BY review_count DESC) AS ranked_reviews;
+    </select>
+
+
 </mapper>

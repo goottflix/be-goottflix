@@ -11,5 +11,5 @@ public interface ChatMessageMapper {
 
     List<ChatMessage> getMessagesByRoomId(Long roomId);
     Long insertChatMessage(ChatMessage chatMessage);
-
+    void insertChatMessages(ChatMessage messages);
 }

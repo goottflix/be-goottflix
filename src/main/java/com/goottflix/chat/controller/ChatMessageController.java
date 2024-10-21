@@ -17,9 +17,20 @@ public class ChatMessageController {
     private final ChatMessageService chatMessageService;
     private final SimpMessagingTemplate messagingTemplate;
 
+
     @MessageMapping("/chat")
     public void sendMessage(ChatMessage message) {
-        chatMessageService.insertChatMessage(message);
+        // 메시지 타입에 따른 처리 (텍스트 또는 이미지)
+        if ("IMAGE".equals(message.getType())) {
+            System.out.println("이미지 메시지 처리");
+        } else {
+            System.out.println("텍스트 메시지 처리");
+        }
+
+        // 메시지를 데이터베이스에 저장
+        chatMessageService.insertChatMessages(message);
+
+        // 메시지를 해당 채팅방 구독자에게 전송
         messagingTemplate.convertAndSend("/topic/chat/" + message.getRoomId(), message);
     }
 
@@ -37,5 +48,8 @@ public class ChatMessageController {
         public List<ChatMessage> getMessagesByRoomId(@PathVariable Long roomId) {
             return chatMessageService.getMessagesByRoomId(roomId);
         }
+
+
+
     }
 }
