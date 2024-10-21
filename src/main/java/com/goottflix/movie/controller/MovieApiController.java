@@ -42,7 +42,7 @@ public class MovieApiController {
         return movieService.getAllMovies();
     }
     @GetMapping("/list/page")
-    public ResponseEntity<Map<String, Object>> getMoviesPage(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<Map<String, Object>> getMoviesPage(@RequestParam("page") int page, @RequestParam("size") int size) {
         List<Movie> movies = movieService.getMoviesWithPage(page, size);
         int totalMovies = movieService.getTotalMovieCount();
 
